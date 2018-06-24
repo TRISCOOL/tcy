@@ -2,7 +2,8 @@ package tcy.api.vo;
 
 public enum ResponseCode {
 
-    OK("200","success");
+    OK("200","success"),
+    AUTH_FAILED("401","User authentication failed");
 
     private String code;
     private String message;

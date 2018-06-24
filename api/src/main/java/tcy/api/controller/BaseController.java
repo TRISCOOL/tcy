@@ -5,12 +5,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tcy.api.vo.ResponseVo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequestMapping("/base")
 @RestController
 public class BaseController {
 
     @GetMapping("/test")
     public ResponseVo test(){
-        return ResponseVo.ok();
+
+        Map<String,String> result = new HashMap<String, String>();
+        result.put("token","1234");
+        result.put("userName","哈哈哈");
+
+        return ResponseVo.ok(result);
     }
 }
