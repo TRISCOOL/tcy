@@ -1,0 +1,11 @@
+.DS_Store
+.idea
+target
+*.iml
+/.settings/
+/.project
+*.ps1
+*.log
+*.zip
+LOG_PATH_IS_UNDEFINED/
+target/
