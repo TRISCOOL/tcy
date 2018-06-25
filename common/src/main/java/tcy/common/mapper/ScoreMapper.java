@@ -1,5 +1,7 @@
 package tcy.common.mapper;
 
+import tcy.common.model.Score;
+
 public interface ScoreMapper {
     int deleteByPrimaryKey(Long id);
 

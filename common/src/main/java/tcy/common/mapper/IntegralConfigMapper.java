@@ -1,5 +1,7 @@
 package tcy.common.mapper;
 
+import tcy.common.model.IntegralConfig;
+
 public interface IntegralConfigMapper {
     int deleteByPrimaryKey(Long id);
 

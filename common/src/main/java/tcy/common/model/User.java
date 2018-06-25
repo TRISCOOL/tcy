@@ -5,11 +5,11 @@ import java.util.Date;
 public class User {
     private Long id;
 
-    private Long openId;
+    private String openId;
 
-    private Byte sex;
+    private Integer sex;
 
-    private Long wxName;
+    private String wxName;
 
     private String phone;
 
@@ -33,27 +33,19 @@ public class User {
         this.id = id;
     }
 
-    public Long getOpenId() {
-        return openId;
-    }
-
-    public void setOpenId(Long openId) {
-        this.openId = openId;
-    }
-
-    public Byte getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(Byte sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 
-    public Long getWxName() {
+    public String getWxName() {
         return wxName;
     }
 
-    public void setWxName(Long wxName) {
+    public void setWxName(String wxName) {
         this.wxName = wxName;
     }
 
@@ -111,5 +103,13 @@ public class User {
 
     public void setToken(String token) {
         this.token = token == null ? null : token.trim();
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 }

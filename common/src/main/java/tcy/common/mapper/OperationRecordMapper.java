@@ -1,5 +1,7 @@
 package tcy.common.mapper;
 
+import tcy.common.model.OperationRecord;
+
 public interface OperationRecordMapper {
     int deleteByPrimaryKey(Long id);
 

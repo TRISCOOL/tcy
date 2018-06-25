@@ -1,5 +1,7 @@
 package tcy.common.mapper;
 
+import tcy.common.model.Product;
+
 public interface ProductMapper {
     int deleteByPrimaryKey(Long id);
 

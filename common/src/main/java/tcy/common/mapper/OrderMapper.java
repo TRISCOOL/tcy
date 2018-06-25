@@ -1,5 +1,7 @@
 package tcy.common.mapper;
 
+import tcy.common.model.Order;
+
 public interface OrderMapper {
     int deleteByPrimaryKey(Long id);
 

@@ -1,5 +1,7 @@
 package tcy.common.mapper;
 
+import tcy.common.model.Address;
+
 public interface AddressMapper {
     int deleteByPrimaryKey(Long id);
 

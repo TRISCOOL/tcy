@@ -37,8 +37,8 @@
       #{name,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{uuid,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, 
       #{token,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="tcy.common.model.User" >
-    insert into user
+  <insert id="insertSelective" parameterType="tcy.common.model.User" keyProperty="id" useGeneratedKeys="true">
+    insert into `user`
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -160,4 +160,8 @@
       token = #{token,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectUserByOpenId" resultType="tcy.common.model.User">
+    select *from user where open_id = #{openId};
+  </select>
 </mapper>

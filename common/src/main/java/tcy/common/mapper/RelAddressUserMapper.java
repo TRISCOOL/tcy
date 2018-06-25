@@ -1,5 +1,7 @@
 package tcy.common.mapper;
 
+import tcy.common.model.RelAddressUser;
+
 public interface RelAddressUserMapper {
     int deleteByPrimaryKey(Long id);
 

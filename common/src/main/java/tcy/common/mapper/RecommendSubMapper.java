@@ -1,5 +1,7 @@
 package tcy.common.mapper;
 
+import tcy.common.model.RecommendSub;
+
 public interface RecommendSubMapper {
     int deleteByPrimaryKey(Long id);
 

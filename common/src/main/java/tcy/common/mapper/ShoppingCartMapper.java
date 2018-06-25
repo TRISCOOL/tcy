@@ -1,5 +1,7 @@
 package tcy.common.mapper;
 
+import tcy.common.model.ShoppingCart;
+
 public interface ShoppingCartMapper {
     int deleteByPrimaryKey(Long id);
 
