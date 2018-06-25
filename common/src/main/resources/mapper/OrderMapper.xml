@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.Order" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="actually_paid" property="actuallyPaid" jdbcType="DECIMAL" />
+    <result column="should_pay_amount" property="shouldPayAmount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="tare_order_num" property="tareOrderNum" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="TINYINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="address_id" property="addressId" jdbcType="BIGINT" />
+    <result column="blank_num" property="blankNum" jdbcType="VARCHAR" />
+    <result column="waybill_number" property="waybillNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, order_number, actually_paid, should_pay_amount, status, create_time, 
+    tare_order_num, pay_type, pay_time, address_id, blank_num, waybill_number
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.Order" >
+    insert into order (id, user_id, order_number, 
+      actually_paid, should_pay_amount, status, 
+      create_time, tare_order_num, pay_type, 
+      pay_time, address_id, blank_num, 
+      waybill_number)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{orderNumber,jdbcType=VARCHAR}, 
+      #{actuallyPaid,jdbcType=DECIMAL}, #{shouldPayAmount,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{tareOrderNum,jdbcType=VARCHAR}, #{payType,jdbcType=TINYINT}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{addressId,jdbcType=BIGINT}, #{blankNum,jdbcType=VARCHAR}, 
+      #{waybillNumber,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.Order" >
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="actuallyPaid != null" >
+        actually_paid,
+      </if>
+      <if test="shouldPayAmount != null" >
+        should_pay_amount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="tareOrderNum != null" >
+        tare_order_num,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="addressId != null" >
+        address_id,
+      </if>
+      <if test="blankNum != null" >
+        blank_num,
+      </if>
+      <if test="waybillNumber != null" >
+        waybill_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="actuallyPaid != null" >
+        #{actuallyPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="shouldPayAmount != null" >
+        #{shouldPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tareOrderNum != null" >
+        #{tareOrderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=BIGINT},
+      </if>
+      <if test="blankNum != null" >
+        #{blankNum,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillNumber != null" >
+        #{waybillNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.Order" >
+    update order
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="actuallyPaid != null" >
+        actually_paid = #{actuallyPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="shouldPayAmount != null" >
+        should_pay_amount = #{shouldPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tareOrderNum != null" >
+        tare_order_num = #{tareOrderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addressId != null" >
+        address_id = #{addressId,jdbcType=BIGINT},
+      </if>
+      <if test="blankNum != null" >
+        blank_num = #{blankNum,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillNumber != null" >
+        waybill_number = #{waybillNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.Order" >
+    update order
+    set user_id = #{userId,jdbcType=BIGINT},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      actually_paid = #{actuallyPaid,jdbcType=DECIMAL},
+      should_pay_amount = #{shouldPayAmount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      tare_order_num = #{tareOrderNum,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=TINYINT},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      address_id = #{addressId,jdbcType=BIGINT},
+      blank_num = #{blankNum,jdbcType=VARCHAR},
+      waybill_number = #{waybillNumber,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

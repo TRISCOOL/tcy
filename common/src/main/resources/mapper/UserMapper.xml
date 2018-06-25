@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="open_id" property="openId" jdbcType="BIGINT" />
+    <result column="sex" property="sex" jdbcType="TINYINT" />
+    <result column="wx_name" property="wxName" jdbcType="BIGINT" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="birth_data" property="birthData" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, open_id, sex, wx_name, phone, birth_data, name, logo, uuid, register_time, token
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.User" >
+    insert into user (id, open_id, sex, 
+      wx_name, phone, birth_data, 
+      name, logo, uuid, register_time, 
+      token)
+    values (#{id,jdbcType=BIGINT}, #{openId,jdbcType=BIGINT}, #{sex,jdbcType=TINYINT}, 
+      #{wxName,jdbcType=BIGINT}, #{phone,jdbcType=VARCHAR}, #{birthData,jdbcType=TIMESTAMP}, 
+      #{name,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{uuid,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, 
+      #{token,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="wxName != null" >
+        wx_name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="birthData != null" >
+        birth_data,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="registerTime != null" >
+        register_time,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="wxName != null" >
+        #{wxName,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="birthData != null" >
+        #{birthData,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.User" >
+    update user
+    <set >
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="wxName != null" >
+        wx_name = #{wxName,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="birthData != null" >
+        birth_data = #{birthData,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.User" >
+    update user
+    set open_id = #{openId,jdbcType=BIGINT},
+      sex = #{sex,jdbcType=TINYINT},
+      wx_name = #{wxName,jdbcType=BIGINT},
+      phone = #{phone,jdbcType=VARCHAR},
+      birth_data = #{birthData,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      uuid = #{uuid,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      token = #{token,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

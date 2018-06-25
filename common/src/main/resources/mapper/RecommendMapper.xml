@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.RecommendMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.Recommend" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="recommender" property="recommender" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="viewed_num" property="viewedNum" jdbcType="INTEGER" />
+    <result column="finished_num" property="finishedNum" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, recommender, product_id, create_time, viewed_num, finished_num, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from recommend
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from recommend
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.Recommend" >
+    insert into recommend (id, recommender, product_id, 
+      create_time, viewed_num, finished_num, 
+      description)
+    values (#{id,jdbcType=BIGINT}, #{recommender,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{viewedNum,jdbcType=INTEGER}, #{finishedNum,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.Recommend" >
+    insert into recommend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="recommender != null" >
+        recommender,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="viewedNum != null" >
+        viewed_num,
+      </if>
+      <if test="finishedNum != null" >
+        finished_num,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="recommender != null" >
+        #{recommender,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="viewedNum != null" >
+        #{viewedNum,jdbcType=INTEGER},
+      </if>
+      <if test="finishedNum != null" >
+        #{finishedNum,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.Recommend" >
+    update recommend
+    <set >
+      <if test="recommender != null" >
+        recommender = #{recommender,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="viewedNum != null" >
+        viewed_num = #{viewedNum,jdbcType=INTEGER},
+      </if>
+      <if test="finishedNum != null" >
+        finished_num = #{finishedNum,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.Recommend" >
+    update recommend
+    set recommender = #{recommender,jdbcType=BIGINT},
+      product_id = #{productId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      viewed_num = #{viewedNum,jdbcType=INTEGER},
+      finished_num = #{finishedNum,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

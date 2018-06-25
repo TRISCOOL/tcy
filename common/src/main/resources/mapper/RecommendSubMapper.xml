@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.RecommendSubMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.RecommendSub" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="recommend_id" property="recommendId" jdbcType="BIGINT" />
+    <result column="responder" property="responder" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="view_time" property="viewTime" jdbcType="TIMESTAMP" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, recommend_id, responder, status, view_time, order_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from recommend_sub
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from recommend_sub
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.RecommendSub" >
+    insert into recommend_sub (id, recommend_id, responder, 
+      status, view_time, order_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{recommendId,jdbcType=BIGINT}, #{responder,jdbcType=BIGINT}, 
+      #{status,jdbcType=TINYINT}, #{viewTime,jdbcType=TIMESTAMP}, #{orderTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.RecommendSub" >
+    insert into recommend_sub
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="recommendId != null" >
+        recommend_id,
+      </if>
+      <if test="responder != null" >
+        responder,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="viewTime != null" >
+        view_time,
+      </if>
+      <if test="orderTime != null" >
+        order_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="recommendId != null" >
+        #{recommendId,jdbcType=BIGINT},
+      </if>
+      <if test="responder != null" >
+        #{responder,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="viewTime != null" >
+        #{viewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.RecommendSub" >
+    update recommend_sub
+    <set >
+      <if test="recommendId != null" >
+        recommend_id = #{recommendId,jdbcType=BIGINT},
+      </if>
+      <if test="responder != null" >
+        responder = #{responder,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="viewTime != null" >
+        view_time = #{viewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderTime != null" >
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.RecommendSub" >
+    update recommend_sub
+    set recommend_id = #{recommendId,jdbcType=BIGINT},
+      responder = #{responder,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      view_time = #{viewTime,jdbcType=TIMESTAMP},
+      order_time = #{orderTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

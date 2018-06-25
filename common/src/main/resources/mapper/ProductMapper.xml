@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.Product" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="retail_price" property="retailPrice" jdbcType="DECIMAL" />
+    <result column="source" property="source" jdbcType="TINYINT" />
+    <result column="tag" property="tag" jdbcType="TINYINT" />
+    <result column="shelf" property="shelf" jdbcType="TINYINT" />
+    <result column="shelf_time" property="shelfTime" jdbcType="TIMESTAMP" />
+    <result column="storage_time" property="storageTime" jdbcType="TIMESTAMP" />
+    <result column="integral_config_id" property="integralConfigId" jdbcType="BIGINT" />
+    <result column="sub_type" property="subType" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, type, description, stock, sell_num, cost, retail_price, source, tag, shelf, 
+    shelf_time, storage_time, integral_config_id, sub_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from product
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.Product" >
+    insert into product (id, name, type, 
+      description, stock, sell_num, 
+      cost, retail_price, source, 
+      tag, shelf, shelf_time, 
+      storage_time, integral_config_id, sub_type
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
+      #{cost,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL}, #{source,jdbcType=TINYINT}, 
+      #{tag,jdbcType=TINYINT}, #{shelf,jdbcType=TINYINT}, #{shelfTime,jdbcType=TIMESTAMP}, 
+      #{storageTime,jdbcType=TIMESTAMP}, #{integralConfigId,jdbcType=BIGINT}, #{subType,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="sellNum != null" >
+        sell_num,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="retailPrice != null" >
+        retail_price,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="shelf != null" >
+        shelf,
+      </if>
+      <if test="shelfTime != null" >
+        shelf_time,
+      </if>
+      <if test="storageTime != null" >
+        storage_time,
+      </if>
+      <if test="integralConfigId != null" >
+        integral_config_id,
+      </if>
+      <if test="subType != null" >
+        sub_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="sellNum != null" >
+        #{sellNum,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="retailPrice != null" >
+        #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=TINYINT},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=TINYINT},
+      </if>
+      <if test="shelf != null" >
+        #{shelf,jdbcType=TINYINT},
+      </if>
+      <if test="shelfTime != null" >
+        #{shelfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storageTime != null" >
+        #{storageTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="integralConfigId != null" >
+        #{integralConfigId,jdbcType=BIGINT},
+      </if>
+      <if test="subType != null" >
+        #{subType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.Product" >
+    update product
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="sellNum != null" >
+        sell_num = #{sellNum,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="retailPrice != null" >
+        retail_price = #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=TINYINT},
+      </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=TINYINT},
+      </if>
+      <if test="shelf != null" >
+        shelf = #{shelf,jdbcType=TINYINT},
+      </if>
+      <if test="shelfTime != null" >
+        shelf_time = #{shelfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storageTime != null" >
+        storage_time = #{storageTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="integralConfigId != null" >
+        integral_config_id = #{integralConfigId,jdbcType=BIGINT},
+      </if>
+      <if test="subType != null" >
+        sub_type = #{subType,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.Product" >
+    update product
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      stock = #{stock,jdbcType=INTEGER},
+      sell_num = #{sellNum,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=DECIMAL},
+      retail_price = #{retailPrice,jdbcType=DECIMAL},
+      source = #{source,jdbcType=TINYINT},
+      tag = #{tag,jdbcType=TINYINT},
+      shelf = #{shelf,jdbcType=TINYINT},
+      shelf_time = #{shelfTime,jdbcType=TIMESTAMP},
+      storage_time = #{storageTime,jdbcType=TIMESTAMP},
+      integral_config_id = #{integralConfigId,jdbcType=BIGINT},
+      sub_type = #{subType,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
