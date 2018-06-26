@@ -1,5 +1,7 @@
 package tcy.api.vo;
 
+import tcy.common.exception.ResponseCode;
+
 public class ResponseVo {
     private String code;
     private String message;

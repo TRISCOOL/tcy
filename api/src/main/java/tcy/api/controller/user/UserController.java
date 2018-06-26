@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import tcy.api.vo.ResponseCode;
+import tcy.api.controller.BaseController;
 import tcy.api.vo.ResponseVo;
 import tcy.api.vo.WxSPEncryptedData;
 import tcy.api.vo.WxSPRespVo;
+import tcy.common.exception.ResponseCode;
 import tcy.common.model.User;
 import tcy.common.service.UserService;
 import tcy.common.utils.AES;
@@ -19,6 +20,7 @@ import tcy.common.utils.HttpClientUtils;
 import tcy.common.utils.StringUtils;
 import tcy.common.utils.Utils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController{
 
     @Value("#{environment.wxspappid}")
     private String WxSPAppid = "wxd974c1e2284fb15b";
@@ -89,7 +91,7 @@ public class UserController {
      * @param iv
      * @return
      */
-    @PostMapping("/login")
+    @PostMapping("/login/v1.1")
     public ResponseVo login(@RequestParam("wxCode")String wxCode,
                             @RequestParam("encryptedData")String encryptedData,
                             @RequestParam("iv") String iv){
@@ -111,6 +113,26 @@ public class UserController {
         User result = userService.loginAndRegister(user);
 
         return ResponseVo.ok(result);
+    }
+
+    @PostMapping("/bind_phone/v1.1")
+    public ResponseVo bindPhone(@RequestParam("phone")String phone, HttpServletRequest request){
+        if (phone == null){
+            return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
+        }
+
+        User user = curUser(request);
+        if (user == null){
+            return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
+        }
+
+        user.setPhone(phone);
+        boolean result = userService.updateUser(user);
+        if (result){
+            return ResponseVo.ok();
+        }
+
+        return ResponseVo.error(ResponseCode.SERVER_ERROR);
     }
 
     private User packagingWithWxSPEncryptedData(WxSPEncryptedData wxUser){

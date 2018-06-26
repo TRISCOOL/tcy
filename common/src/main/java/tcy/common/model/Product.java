@@ -8,7 +8,7 @@ public class Product {
 
     private String name;
 
-    private String type;
+    private Integer type;
 
     private String description;
 
@@ -34,6 +34,16 @@ public class Product {
 
     private Byte subType;
 
+    private String brands;
+
+    public String getBrands() {
+        return brands;
+    }
+
+    public void setBrands(String brands) {
+        this.brands = brands;
+    }
+
     public Long getId() {
         return id;
     }
@@ -50,12 +60,12 @@ public class Product {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getDescription() {

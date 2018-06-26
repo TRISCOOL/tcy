@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="tcy.common.model.Product" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="BIGINT" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="stock" property="stock" jdbcType="INTEGER" />
     <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
@@ -17,10 +17,11 @@
     <result column="storage_time" property="storageTime" jdbcType="TIMESTAMP" />
     <result column="integral_config_id" property="integralConfigId" jdbcType="BIGINT" />
     <result column="sub_type" property="subType" jdbcType="TINYINT" />
+    <result column="brands" property="brands" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, type, description, stock, sell_num, cost, retail_price, source, tag, shelf, 
-    shelf_time, storage_time, integral_config_id, sub_type
+    shelf_time, storage_time, integral_config_id, sub_type,brands
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -37,13 +38,14 @@
       description, stock, sell_num, 
       cost, retail_price, source, 
       tag, shelf, shelf_time, 
-      storage_time, integral_config_id, sub_type
+      storage_time, integral_config_id, sub_type,brands
       )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
       #{cost,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL}, #{source,jdbcType=TINYINT}, 
       #{tag,jdbcType=TINYINT}, #{shelf,jdbcType=TINYINT}, #{shelfTime,jdbcType=TIMESTAMP}, 
-      #{storageTime,jdbcType=TIMESTAMP}, #{integralConfigId,jdbcType=BIGINT}, #{subType,jdbcType=TINYINT}
+      #{storageTime,jdbcType=TIMESTAMP}, #{integralConfigId,jdbcType=BIGINT}, #{subType,jdbcType=TINYINT},
+      #{brands,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="tcy.common.model.Product" >
@@ -94,6 +96,9 @@
       <if test="subType != null" >
         sub_type,
       </if>
+      <if test="brands != null">
+        brands,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -140,6 +145,9 @@
       </if>
       <if test="subType != null" >
         #{subType,jdbcType=TINYINT},
+      </if>
+      <if test="brands != null">
+        #{brands,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +196,9 @@
       <if test="subType != null" >
         sub_type = #{subType,jdbcType=TINYINT},
       </if>
+      <if test="brands != null">
+        brands = #{brands,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -206,7 +217,36 @@
       shelf_time = #{shelfTime,jdbcType=TIMESTAMP},
       storage_time = #{storageTime,jdbcType=TIMESTAMP},
       integral_config_id = #{integralConfigId,jdbcType=BIGINT},
-      sub_type = #{subType,jdbcType=TINYINT}
+      sub_type = #{subType,jdbcType=TINYINT},
+      brands = #{brands,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="listAllProduct" resultType="tcy.common.model.Product">
+    select *from product order by sell_num,shelf_time desc limit #{offset},#{length};
+  </select>
+
+  <select id="listProductByType" resultType="tcy.common.model.Product">
+    select *from product where `type`=#{productTypeId} order by sell_num,shelf_time desc limit #{offset},#{length};
+  </select>
+
+  <select id="listProductBySearch" resultType="tcy.common.model.Product">
+    SELECT
+    *
+    FROM
+    product p
+        LEFT JOIN
+    product_type pt ON p.type = pt.id
+    <if test="found != null">
+      WHERE
+      p.`name` LIKE CONCAT('%',#{found}, '%')
+      OR pt.name LIKE CONCAT('%',#{found}, '%')
+      OR pt.description LIKE CONCAT('%',#{found}, '%')
+      OR p.brands LIKE CONCAT('%',#{found}, '%')
+      OR p.description LIKE CONCAT('%',#{found}, '%')
+      ORDER BY p.sell_num , p.shelf_time
+      LIMIT #{offset},#{length}
+    </if>
+  </select>
+
 </mapper>

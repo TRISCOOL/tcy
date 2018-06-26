@@ -7,8 +7,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import tcy.api.annotations.AuthRequire;
-import tcy.api.vo.ResponseCode;
 import tcy.api.vo.ResponseVo;
+import tcy.common.exception.ResponseCode;
 import tcy.common.service.RedisService;
 import tcy.common.utils.Utils;
 

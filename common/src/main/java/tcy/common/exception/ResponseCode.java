@@ -1,10 +1,11 @@
-package tcy.api.vo;
+package tcy.common.exception;
 
 public enum ResponseCode {
 
     OK("200","success"),
     //400-500
     AUTH_FAILED("401","User authentication failed"),
+    PARAM_ILLEGAL("420","param is illegal"),
     //500-600
     SERVER_ERROR("500","server error");
 
