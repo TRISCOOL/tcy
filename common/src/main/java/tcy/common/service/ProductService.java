@@ -14,4 +14,6 @@ public interface ProductService {
     List<ProductType> listProductType(Long parentId,Integer level);
 
     List<Product> listProductBySearch(Integer offset,Integer length,String found);
+
+    List<Product> listProductWithTag(Integer tag);
 }

@@ -223,23 +223,41 @@
   </update>
 
   <select id="listAllProduct" resultType="tcy.common.model.Product">
-    select *from product order by sell_num,shelf_time desc limit #{offset},#{length};
+    select
+        p.*,pi.url
+    from
+      product p
+    LEFT JOIN product_img pi ON p.id = pi.product_id
+    WHERE
+    pi.type = 1
+    order by p.sell_num,p.shelf_time desc
+    limit #{offset},#{length};
   </select>
 
   <select id="listProductByType" resultType="tcy.common.model.Product">
-    select *from product where `type`=#{productTypeId} order by sell_num,shelf_time desc limit #{offset},#{length};
+    select
+        p.*,pi.url
+    from
+    product p
+    LEFT JOIN product_img pi ON p.id = pi.product_id
+    where
+    pi.type = 1
+    AND p.`type`=#{productTypeId}
+    order by p.sell_num,p.shelf_time desc
+    limit #{offset},#{length};
   </select>
 
   <select id="listProductBySearch" resultType="tcy.common.model.Product">
     SELECT
-    *
+    p.*,pi.url
     FROM
     product p
         LEFT JOIN
     product_type pt ON p.type = pt.id
+    LEFT JOIN product_img pi ON p.id = pi.product_id
+    WHERE pi.type = 1
     <if test="found != null">
-      WHERE
-      p.`name` LIKE CONCAT('%',#{found}, '%')
+      AND p.`name` LIKE CONCAT('%',#{found}, '%')
       OR pt.name LIKE CONCAT('%',#{found}, '%')
       OR pt.description LIKE CONCAT('%',#{found}, '%')
       OR p.brands LIKE CONCAT('%',#{found}, '%')
@@ -249,4 +267,7 @@
     </if>
   </select>
 
+  <select id="selectProductForTag" resultType="tcy.common.model.Product">
+    select *from product p left join product_img pi on p.id = pi.product_id where p.tag = #{tag};
+  </select>
 </mapper>

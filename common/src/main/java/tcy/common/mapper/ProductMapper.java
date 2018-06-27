@@ -27,4 +27,6 @@ public interface ProductMapper {
     List<Product> listProductBySearch(@Param("offset")Integer offset,
                                       @Param("length")Integer length,
                                       @Param("found")String found);
+
+    List<Product> selectProductForTag(@Param("tag")Integer tag);
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tcy.api.controller.BaseController;
 import tcy.api.vo.ProductTypeVo;
+import tcy.api.vo.ProductVo;
 import tcy.api.vo.ResponseVo;
 import tcy.common.exception.ResponseCode;
 import tcy.common.model.Product;
@@ -30,7 +31,7 @@ public class ProductController extends BaseController{
         Integer offset = page - 1 <= 0?0:page-1;
         List<Product> productList = productService.listAllProduct(offset*length,length);
 
-        return ResponseVo.ok(productList);
+        return ResponseVo.ok(getProductVoList(productList));
     }
 
     /**
@@ -49,7 +50,7 @@ public class ProductController extends BaseController{
             return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
         }
         List<Product> productList = productService.listProductByType(page,length,productTypeId);
-        return ResponseVo.ok(productList);
+        return ResponseVo.ok(getProductVoList(productList));
     }
 
     @GetMapping("/type_list/v1.1")
@@ -90,7 +91,32 @@ public class ProductController extends BaseController{
 
         Integer offset = page - 1 < 0?0:page-1;
         List<Product> productList = productService.listProductBySearch(offset*length,length,found);
-        return ResponseVo.ok(productList);
+        return ResponseVo.ok(getProductVoList(productList));
+    }
+
+    /**
+     *
+     * @return
+     */
+    @GetMapping("/carousel/v1.1")
+    public ResponseVo carousel(){
+        List<Product> productList = productService.listProductWithTag(1);
+        return ResponseVo.ok(getProductVoList(productList));
+    }
+
+    private List<ProductVo> getProductVoList(List<Product> products){
+        if (products == null)
+            return null;
+
+        if (products.size()<=0)
+            return null;
+
+        List<ProductVo> productVoList = products.stream().map(product -> {
+            ProductVo vo = ProductVo.getVo(product);
+            return vo;
+        }).collect(Collectors.toList());
+
+        return productVoList;
     }
 
 

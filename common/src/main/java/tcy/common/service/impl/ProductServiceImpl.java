@@ -38,4 +38,9 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> listProductBySearch(Integer offset, Integer length, String found) {
         return productMapper.listProductBySearch(offset,length,found);
     }
+
+    @Override
+    public List<Product> listProductWithTag(Integer tag) {
+        return productMapper.selectProductForTag(tag);
+    }
 }
