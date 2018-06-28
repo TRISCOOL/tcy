@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.ClothingSizeMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.ClothingSize" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, description, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from clothing_size
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from clothing_size
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.ClothingSize" >
+    insert into clothing_size (id, description, type
+      )
+    values (#{id,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.ClothingSize" >
+    insert into clothing_size
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.ClothingSize" >
+    update clothing_size
+    <set >
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.ClothingSize" >
+    update clothing_size
+    set description = #{description,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectSizeWithProductId" resultType="tcy.common.model.ClothingSize">
+    SELECT
+      cs.*
+    FROM
+      clothing_config cc
+    LEFT JOIN
+      clothing_size cs ON cc.size_id = cs.id
+    WHERE
+      cc.product_id = #{productId}
+    GROUP BY cc.size_id;
+  </select>
+
+  <select id="selectSizeWithProductIdAndColorId" resultType="tcy.common.model.ClothingSize">
+    SELECT
+    cs.*
+    FROM
+    clothing_config cc
+    LEFT JOIN
+    clothing_size cs ON cc.size_id = cs.id
+    WHERE
+    cc.product_id = #{productId}
+    AND cc.color_id = #{colorId}
+    GROUP BY cc.size_id;
+  </select>
+
+</mapper>

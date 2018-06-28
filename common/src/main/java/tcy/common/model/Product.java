@@ -2,6 +2,7 @@ package tcy.common.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Product {
     private Long id;
@@ -37,6 +38,16 @@ public class Product {
     private String brands;
 
     private String url;
+
+    private List<String> detailsImages;
+
+    public List<String> getDetailsImages() {
+        return detailsImages;
+    }
+
+    public void setDetailsImages(List<String> detailsImages) {
+        this.detailsImages = detailsImages;
+    }
 
     public String getUrl() {
         return url;

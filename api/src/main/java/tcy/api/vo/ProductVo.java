@@ -3,6 +3,7 @@ package tcy.api.vo;
 import tcy.common.model.Product;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductVo {
     private Long productId;
@@ -12,6 +13,8 @@ public class ProductVo {
     private String brands;
     private BigDecimal retailPrice;
     private String url;
+
+    private List<String> detailsImages;
 
     public static ProductVo getVo(Product product){
         if (product == null)
@@ -25,6 +28,7 @@ public class ProductVo {
         vo.setRetailPrice(product.getRetailPrice());
         vo.setSellNum(product.getSellNum());
         vo.setUrl(product.getUrl());
+        vo.setDetailsImages(product.getDetailsImages());
 
         return vo;
     }
@@ -83,5 +87,13 @@ public class ProductVo {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public List<String> getDetailsImages() {
+        return detailsImages;
+    }
+
+    public void setDetailsImages(List<String> detailsImages) {
+        this.detailsImages = detailsImages;
     }
 }

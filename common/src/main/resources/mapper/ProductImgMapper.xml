@@ -79,4 +79,18 @@
       type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="listImagesForProductIdAndType" resultType="tcy.common.model.ProductImg">
+    SELECT
+      *
+    FROM
+      product_img
+    WHERE 1=1
+    <if test="productId != null">
+      AND product_id = #{productId}
+    </if>
+    <if test="type != null">
+      AND `type` = #{type}
+    </if>
+  </select>
 </mapper>

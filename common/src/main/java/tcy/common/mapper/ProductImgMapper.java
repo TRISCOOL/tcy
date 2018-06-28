@@ -1,6 +1,9 @@
 package tcy.common.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import tcy.common.model.ProductImg;
+
+import java.util.List;
 
 public interface ProductImgMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +17,6 @@ public interface ProductImgMapper {
     int updateByPrimaryKeySelective(ProductImg record);
 
     int updateByPrimaryKey(ProductImg record);
+
+    List<ProductImg> listImagesForProductIdAndType(@Param("productId") Long productId,@Param("type")Integer type);
 }

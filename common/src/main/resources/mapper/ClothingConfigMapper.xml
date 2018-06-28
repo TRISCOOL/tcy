@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.ClothingConfigMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.ClothingConfig" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="color_id" property="colorId" jdbcType="BIGINT" />
+    <result column="size_id" property="sizeId" jdbcType="BIGINT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="stock_num" property="stockNum" jdbcType="INTEGER" />
+    <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
+    <result column="color_value" property="colorValue" jdbcType="VARCHAR" />
+    <result column="size_value" property="sizeValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_id, color_id, size_id, description, stock_num, sell_num, color_value, 
+    size_value
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from clothing_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from clothing_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.ClothingConfig" >
+    insert into clothing_config (id, product_id, color_id, 
+      size_id, description, stock_num, 
+      sell_num, color_value, size_value
+      )
+    values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{colorId,jdbcType=BIGINT}, 
+      #{sizeId,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}, #{stockNum,jdbcType=INTEGER}, 
+      #{sellNum,jdbcType=INTEGER}, #{colorValue,jdbcType=VARCHAR}, #{sizeValue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.ClothingConfig" >
+    insert into clothing_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="colorId != null" >
+        color_id,
+      </if>
+      <if test="sizeId != null" >
+        size_id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="stockNum != null" >
+        stock_num,
+      </if>
+      <if test="sellNum != null" >
+        sell_num,
+      </if>
+      <if test="colorValue != null" >
+        color_value,
+      </if>
+      <if test="sizeValue != null" >
+        size_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="colorId != null" >
+        #{colorId,jdbcType=BIGINT},
+      </if>
+      <if test="sizeId != null" >
+        #{sizeId,jdbcType=BIGINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="stockNum != null" >
+        #{stockNum,jdbcType=INTEGER},
+      </if>
+      <if test="sellNum != null" >
+        #{sellNum,jdbcType=INTEGER},
+      </if>
+      <if test="colorValue != null" >
+        #{colorValue,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeValue != null" >
+        #{sizeValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.ClothingConfig" >
+    update clothing_config
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="colorId != null" >
+        color_id = #{colorId,jdbcType=BIGINT},
+      </if>
+      <if test="sizeId != null" >
+        size_id = #{sizeId,jdbcType=BIGINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="stockNum != null" >
+        stock_num = #{stockNum,jdbcType=INTEGER},
+      </if>
+      <if test="sellNum != null" >
+        sell_num = #{sellNum,jdbcType=INTEGER},
+      </if>
+      <if test="colorValue != null" >
+        color_value = #{colorValue,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeValue != null" >
+        size_value = #{sizeValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.ClothingConfig" >
+    update clothing_config
+    set product_id = #{productId,jdbcType=BIGINT},
+      color_id = #{colorId,jdbcType=BIGINT},
+      size_id = #{sizeId,jdbcType=BIGINT},
+      description = #{description,jdbcType=VARCHAR},
+      stock_num = #{stockNum,jdbcType=INTEGER},
+      sell_num = #{sellNum,jdbcType=INTEGER},
+      color_value = #{colorValue,jdbcType=VARCHAR},
+      size_value = #{sizeValue,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectOneByAllId" resultType="tcy.common.model.ClothingConfig">
+    select *from clothing_config where product_id = #{productId} and color_id = #{colorId} and size_id = #{sizeId};
+  </select>
+</mapper>

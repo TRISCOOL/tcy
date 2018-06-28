@@ -10,8 +10,7 @@ import tcy.api.vo.ProductTypeVo;
 import tcy.api.vo.ProductVo;
 import tcy.api.vo.ResponseVo;
 import tcy.common.exception.ResponseCode;
-import tcy.common.model.Product;
-import tcy.common.model.ProductType;
+import tcy.common.model.*;
 import tcy.common.service.ProductService;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class ProductController extends BaseController{
     }
 
     /**
-     *
+     * 通过商品类型获得商品列表
      * @param page
      * @param length
      * @param productTypeId
@@ -53,6 +52,12 @@ public class ProductController extends BaseController{
         return ResponseVo.ok(getProductVoList(productList));
     }
 
+    /**
+     * 商品类型列表
+     * @param productTypeId
+     * @param level
+     * @return
+     */
     @GetMapping("/type_list/v1.1")
     public ResponseVo productTypeList(@RequestParam(value = "productTypeId",required = false)Long productTypeId,
                                       @RequestParam("level")Integer level){
@@ -79,7 +84,7 @@ public class ProductController extends BaseController{
     }
 
     /**
-     *
+     * 搜索
      * @param found 搜索参数
      * @param page 当前页
      * @param length 页长度
@@ -95,7 +100,7 @@ public class ProductController extends BaseController{
     }
 
     /**
-     *
+     * 轮播图
      * @return
      */
     @GetMapping("/carousel/v1.1")
@@ -103,6 +108,73 @@ public class ProductController extends BaseController{
         List<Product> productList = productService.listProductWithTag(1);
         return ResponseVo.ok(getProductVoList(productList));
     }
+
+    /**
+     * 商品详情
+     * @return
+     */
+    @GetMapping("/details/v1.1")
+    public ResponseVo productDetail(@RequestParam("productId")Long productId){
+        if (productId == null)
+            return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
+
+        Product product = productService.getProductDetails(productId);
+        if (product == null)
+            return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
+
+        ProductVo vo = ProductVo.getVo(product);
+
+        return ResponseVo.ok(vo);
+    }
+
+    /**
+     * 获取指定商品的颜色
+     * @param productId
+     * @return
+     */
+    @GetMapping("/colors/v1.1")
+    public ResponseVo listColorForProduct(@RequestParam("productId")Long productId){
+        if (productId == null)
+            return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
+
+        List<Color> colors = productService.listColorWithProductId(productId);
+
+        return ResponseVo.ok(colors);
+    }
+
+    /**
+     * 获取指定商品的尺寸
+     * @param productId
+     * @return
+     */
+    @GetMapping("/sizes/v1.1")
+    public ResponseVo listSizeForProduct(@RequestParam("productId")Long productId){
+        if (productId == null)
+            return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
+
+        List<ClothingSize> clothingSizes = productService.listSizeWithProductId(productId);
+        return ResponseVo.ok(clothingSizes);
+    }
+
+    @GetMapping("/check/v1.1")
+    public ResponseVo checkProduct(@RequestParam("productId")Long productId,
+                                   @RequestParam(value = "colorId",required = false)Long colorId,
+                                   @RequestParam(value = "sizeId",required = false)Long sizeId){
+
+        if (colorId == null && sizeId != null){
+            List<Color> colorList = productService.checkColorByProductIdAndSizeId(productId,sizeId);
+            return ResponseVo.ok(colorList);
+        }else if (colorId != null && sizeId == null){
+            List<ClothingSize> clothingSizes = productService.checkSizeByProductIdAndColorId(productId,colorId);
+            return ResponseVo.ok(clothingSizes);
+        }else if (colorId != null && sizeId != null){
+            ClothingConfig clothingConfig = productService.selectOneByAllId(productId,sizeId,colorId);
+            return ResponseVo.ok(clothingConfig);
+        }
+
+        return ResponseVo.ok();
+    }
+
 
     private List<ProductVo> getProductVoList(List<Product> products){
         if (products == null)
@@ -118,6 +190,5 @@ public class ProductController extends BaseController{
 
         return productVoList;
     }
-
 
 }
