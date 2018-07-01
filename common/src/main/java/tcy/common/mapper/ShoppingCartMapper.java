@@ -1,6 +1,9 @@
 package tcy.common.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import tcy.common.model.ShoppingCart;
+
+import java.util.List;
 
 public interface ShoppingCartMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +17,8 @@ public interface ShoppingCartMapper {
     int updateByPrimaryKeySelective(ShoppingCart record);
 
     int updateByPrimaryKey(ShoppingCart record);
+
+    List<ShoppingCart> listShoppingCartByUserId(@Param("userId")Long userId);
+
+    int deleteAllByUserId(@Param("userId")Long userId);
 }

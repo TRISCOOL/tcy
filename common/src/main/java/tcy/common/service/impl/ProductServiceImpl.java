@@ -101,4 +101,9 @@ public class ProductServiceImpl implements ProductService{
     public ClothingConfig selectOneByAllId(Long productId, Long sizeId, Long colorId) {
         return clothingConfigMapper.selectOneByAllId(productId,colorId,sizeId);
     }
+
+    @Override
+    public Product getProductByClothingConfig(Long ccId) {
+        return productMapper.selectProductByClothingConfig(ccId);
+    }
 }

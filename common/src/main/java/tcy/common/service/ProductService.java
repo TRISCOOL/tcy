@@ -27,4 +27,6 @@ public interface ProductService {
     List<ClothingSize> checkSizeByProductIdAndColorId(Long productId,Long colorId);
 
     ClothingConfig selectOneByAllId(Long productId,Long sizeId,Long colorId);
+
+    Product getProductByClothingConfig(Long ccId);
 }

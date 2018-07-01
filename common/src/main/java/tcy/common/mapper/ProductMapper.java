@@ -29,4 +29,6 @@ public interface ProductMapper {
                                       @Param("found")String found);
 
     List<Product> selectProductForTag(@Param("tag")Integer tag);
+
+    Product selectProductByClothingConfig(@Param("ccId")Long ccId);
 }

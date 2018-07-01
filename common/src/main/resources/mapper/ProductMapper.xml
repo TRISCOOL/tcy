@@ -270,4 +270,8 @@
   <select id="selectProductForTag" resultType="tcy.common.model.Product">
     select *from product p left join product_img pi on p.id = pi.product_id where p.tag = #{tag};
   </select>
+
+  <select id="selectProductByClothingConfig" resultType="tcy.common.model.Product">
+    SELECT p.* FROM clothing_config cc LEFT JOIN product p ON cc.product_id = p.id WHERE cc.id = #{ccId}
+  </select>
 </mapper>
