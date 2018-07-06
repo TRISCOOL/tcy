@@ -1,5 +1,7 @@
 package tcy.common.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,8 @@ public class AddressServiceImpl implements AddressService{
 
     @Autowired
     private AddressMapper addressMapper;
+
+    private static Logger logger = LoggerFactory.getLogger(AddressServiceImpl.class);
 
     @Override
     public List<Province> listProvinces(String provinceName) {
@@ -85,11 +89,9 @@ public class AddressServiceImpl implements AddressService{
 
     @Override
     @Transactional
-    public boolean setDefaultAddress(Long addressId) {
+    public boolean setDefaultAddress(Long addressId,Long userId) {
         int result = addressMapper.upAddressTagByUser(-1+"",addressId);
-        if (result == 0){
-            throw new TcyException("update default address failed 1");
-        }
+        logger.info("cancel {} address for {}",result,addressId);
 
         Address address = new Address();
         address.setId(addressId);

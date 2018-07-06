@@ -69,7 +69,7 @@ public interface AddressService {
      * @param addressId
      * @return
      */
-    boolean setDefaultAddress(Long addressId);
+    boolean setDefaultAddress(Long addressId,Long userId);
 
 
 

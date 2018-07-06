@@ -83,7 +83,7 @@
   <select id="listProvince" resultType="tcy.common.model.Province">
     select * from province WHERE 1=1
     <if test="provinceName != null">
-      provinceName LIKE CONCAT('%',#{provinceName},'%');
+      AND province_name LIKE CONCAT('%',#{provinceName},'%');
     </if>
   </select>
 </mapper>

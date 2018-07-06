@@ -144,7 +144,10 @@ public class AddressController extends BaseController{
      * @return
      */
     @PostMapping("/default/v1.1")
-    public ResponseVo setDefaultAddress(@ModelAttribute Address address){
+    public ResponseVo setDefaultAddress(@ModelAttribute Address address,HttpServletRequest request){
+
+        User user = curUser(request);
+
         if (address == null)
             return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
 
@@ -152,7 +155,7 @@ public class AddressController extends BaseController{
             return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
         }
 
-        boolean result = addressService.setDefaultAddress(address.getId());
+        boolean result = addressService.setDefaultAddress(address.getId(),user.getId());
         if (result){
             return ResponseVo.ok();
         }

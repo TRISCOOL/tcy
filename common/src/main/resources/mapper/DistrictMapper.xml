@@ -94,7 +94,7 @@
   <select id="listDistrictByCityId" resultType="tcy.common.model.District">
     SELECT *FROM district WHERE city_id = #{cityId}
     <if test="districtName">
-      district_name LIKE CONCAT('%',#{districtName},'%')
+      AND district_name LIKE CONCAT('%',#{districtName},'%')
     </if>
   </select>
 </mapper>

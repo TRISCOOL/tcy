@@ -63,7 +63,7 @@
       <if test="contact != null">
         contact,
       </if>
-      <if test="user_id != null">
+      <if test="userId != null">
         user_id
       </if>
     </trim>
@@ -156,7 +156,7 @@
   </select>
 
   <update id="deleteAddressById">
-    UPDATE address SET `delete` = 1 WHERE id = #{addressId}
+    UPDATE address SET `deleted` = 1 WHERE id = #{addressId}
   </update>
 
   <update id="upAddressTagByUser">
