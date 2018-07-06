@@ -7,9 +7,14 @@
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="county" property="county" jdbcType="VARCHAR" />
     <result column="detail_address" property="detailAddress" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="TINYINT" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, province, city, county, detail_address
+    id, province, city, county, detail_address, deleted, tag,contact_phone,contact,user_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -23,9 +28,10 @@
   </delete>
   <insert id="insert" parameterType="tcy.common.model.Address" >
     insert into address (id, province, city, 
-      county, detail_address)
+      county, detail_address,deleted,tag,contact_phone,contact,user_id)
     values (#{id,jdbcType=BIGINT}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{county,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR})
+      #{county,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR},#{deleted,jdbcType=TINYINT},#{tag,jdbcType=VARCHAR},
+      #{contactPhone},#{contact},#{userId})
   </insert>
   <insert id="insertSelective" parameterType="tcy.common.model.Address" >
     insert into address
@@ -45,6 +51,21 @@
       <if test="detailAddress != null" >
         detail_address,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+      <if test="contactPhone != null">
+        contact_phone,
+      </if>
+      <if test="contact != null">
+        contact,
+      </if>
+      <if test="user_id != null">
+        user_id
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -61,6 +82,21 @@
       </if>
       <if test="detailAddress != null" >
         #{detailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=TINYINT},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        #{contactPhone},
+      </if>
+      <if test="contact != null">
+        #{contact},
+      </if>
+      <if test="userId != null">
+        #{userId}
       </if>
     </trim>
   </insert>
@@ -79,6 +115,21 @@
       <if test="detailAddress != null" >
         detail_address = #{detailAddress,jdbcType=VARCHAR},
       </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=TINYINT},
+      </if>
+      <if test="tag != null">
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        contact_phone = #{contactPhone},
+      </if>
+      <if test="contact != null">
+        contact = #{contact},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -87,7 +138,28 @@
     set province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       county = #{county,jdbcType=VARCHAR},
-      detail_address = #{detailAddress,jdbcType=VARCHAR}
+      detail_address = #{detailAddress,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=TINYINT},
+      tag = #{tag,jdbcType=VARCHAR},
+      contact_phone = #{contactPhone},
+      contact = #{contact},
+      user_id = #{userId}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectAddressByUser" resultType="tcy.common.model.Address">
+    select *from address where user_id = #{userId} and deleted = 0
+  </select>
+
+  <select id="selectDefaultAddress" resultType="tcy.common.model.Address">
+    select *from address where user_id = #{userId} and tag =1 and deleted = 0;
+  </select>
+
+  <update id="deleteAddressById">
+    UPDATE address SET `delete` = 1 WHERE id = #{addressId}
+  </update>
+
+  <update id="upAddressTagByUser">
+    UPDATE address SET tag = #{tag} WHERE user_id = #{userId}
   </update>
 </mapper>

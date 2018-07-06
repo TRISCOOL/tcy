@@ -26,7 +26,7 @@ public class ShoppringCartServiceImpl implements ShoppringCartService{
 
     @Override
     public List<ShoppingCart> listShoppingCartForUser(Long userId) {
-        return null;
+        return shoppingCartMapper.listShoppingCartByUserId(userId);
     }
 
     @Override

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.DistrictMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.District" >
+    <id column="district_id" property="districtId" jdbcType="BIGINT" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="BIGINT" />
+    <result column="date_created" property="dateCreated" jdbcType="TIMESTAMP" />
+    <result column="date_updated" property="dateUpdated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    district_id, district_name, city_id, date_created, date_updated
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from district
+    where district_id = #{districtId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from district
+    where district_id = #{districtId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.District" >
+    insert into district (district_id, district_name, city_id, 
+      date_created, date_updated)
+    values (#{districtId,jdbcType=BIGINT}, #{districtName,jdbcType=VARCHAR}, #{cityId,jdbcType=BIGINT}, 
+      #{dateCreated,jdbcType=TIMESTAMP}, #{dateUpdated,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.District" >
+    insert into district
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="districtId != null" >
+        district_id,
+      </if>
+      <if test="districtName != null" >
+        district_name,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="dateCreated != null" >
+        date_created,
+      </if>
+      <if test="dateUpdated != null" >
+        date_updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="districtId != null" >
+        #{districtId,jdbcType=BIGINT},
+      </if>
+      <if test="districtName != null" >
+        #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="dateCreated != null" >
+        #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateUpdated != null" >
+        #{dateUpdated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.District" >
+    update district
+    <set >
+      <if test="districtName != null" >
+        district_name = #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="dateCreated != null" >
+        date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateUpdated != null" >
+        date_updated = #{dateUpdated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where district_id = #{districtId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.District" >
+    update district
+    set district_name = #{districtName,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=BIGINT},
+      date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      date_updated = #{dateUpdated,jdbcType=TIMESTAMP}
+    where district_id = #{districtId,jdbcType=BIGINT}
+  </update>
+
+  <select id="listDistrictByCityId" resultType="tcy.common.model.District">
+    SELECT *FROM district WHERE city_id = #{cityId}
+    <if test="districtName">
+      district_name LIKE CONCAT('%',#{districtName},'%')
+    </if>
+  </select>
+</mapper>

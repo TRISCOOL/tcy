@@ -4,12 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tcy.api.controller.BaseController;
 import tcy.api.vo.ResponseVo;
+import tcy.api.vo.WxRequest;
 import tcy.api.vo.WxSPEncryptedData;
 import tcy.api.vo.WxSPRespVo;
 import tcy.common.exception.ResponseCode;
@@ -33,10 +31,10 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 public class UserController extends BaseController{
 
     @Value("#{environment.wxspappid}")
-    private String WxSPAppid = "wxd974c1e2284fb15b";
+    private String WxSPAppid = "wx13315d43739eab72";
 
     @Value("#{environment.wxspsecret}")
-    private String WxSPSecret = "b58227d8b425b06c17d4f7bff2f4f4d9";
+    private String WxSPSecret = "4b19a558d1a249077cfcdaf9b65a64cd";
 
     @Value("#{environment.wxspsecret}")
     private String WxSPurl = "https://api.weixin.qq.com/sns/jscode2session";
@@ -86,30 +84,34 @@ public class UserController extends BaseController{
 
     /**
      * 微信用户登录
-     * @param wxCode
-     * @param encryptedData
-     * @param iv
+     * @param wxRequest
      * @return
      */
     @PostMapping("/login/v1.1")
-    public ResponseVo login(@RequestParam("wxCode")String wxCode,
-                            @RequestParam("encryptedData")String encryptedData,
-                            @RequestParam("iv") String iv){
+    public ResponseVo login(@RequestBody WxRequest wxRequest){
 
         //TODO 获取微信认证，获得openId等信息
-        WxSPRespVo wxSPRespVo = getSeesionKey(wxCode);
+        WxSPRespVo wxSPRespVo = getSeesionKey(wxRequest.getWxCode());
         if(null == wxSPRespVo){
             logger.error("get seesionKey is failed");
             return ResponseVo.error(ResponseCode.SERVER_ERROR);
         }
 
-        WxSPEncryptedData userInfo = decodeEncryptedDataData(encryptedData, wxSPRespVo.getSession_key(), iv);
-        if(userInfo == null){
-            return ResponseVo.error(ResponseCode.SERVER_ERROR);
-        }
+        //WxSPEncryptedData userInfo = decodeEncryptedDataData(w*/xRequest.getEncryptedData(), wxSPRespVo.getSession_key(), wxRequest.getIv());
+/*        if(userInfo == null){*/
+/*            return ResponseVo.error(ResponseCode.SERVER_ERROR)*/;
+/*        }*/
+/*
+*/
 
-        //TODO 如果是已有用户就直接返回登录信息，否则插入openId等信息后，再返回用户信息
-        User user = packagingWithWxSPEncryptedData(userInfo);
+/*        //TODO 如果是已有用户就直接返回登录信息，否则插入openId等信息后，再返回用户信息*/
+/*        User user = packagingWithWxSPEncryptedData(userInfo);*/
+        User user = new User();
+        user.setOpenId(wxSPRespVo.getOpenid());
+        user.setSex(Integer.parseInt(wxRequest.getWxGender()));
+        user.setLogo(wxRequest.getUrl());
+        user.setWxName(wxRequest.getWxNickName());
+
         User result = userService.loginAndRegister(user);
 
         return ResponseVo.ok(result);

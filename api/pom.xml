@@ -112,10 +112,10 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-<!--                    <fork>true</fork>
+                    <fork>true</fork>
                     <jvmArguments>
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
-                    </jvmArguments>-->
+                    </jvmArguments>
                 </configuration>
                 <executions>
                     <execution>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.CityMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.City" >
+    <id column="city_id" property="cityId" jdbcType="BIGINT" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="zip_code" property="zipCode" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="BIGINT" />
+    <result column="date_created" property="dateCreated" jdbcType="TIMESTAMP" />
+    <result column="date_updated" property="dateUpdated" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    city_id, city_name, zip_code, province_id, date_created, date_updated
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from city
+    where city_id = #{cityId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from city
+    where city_id = #{cityId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.City" >
+    insert into city (city_id, city_name, zip_code, 
+      province_id, date_created, date_updated
+      )
+    values (#{cityId,jdbcType=BIGINT}, #{cityName,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, 
+      #{provinceId,jdbcType=BIGINT}, #{dateCreated,jdbcType=TIMESTAMP}, #{dateUpdated,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.City" >
+    insert into city
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+      <if test="zipCode != null" >
+        zip_code,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="dateCreated != null" >
+        date_created,
+      </if>
+      <if test="dateUpdated != null" >
+        date_updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cityId != null" >
+        #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null" >
+        #{zipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="dateCreated != null" >
+        #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateUpdated != null" >
+        #{dateUpdated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.City" >
+    update city
+    <set >
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null" >
+        zip_code = #{zipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="dateCreated != null" >
+        date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateUpdated != null" >
+        date_updated = #{dateUpdated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where city_id = #{cityId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.City" >
+    update city
+    set city_name = #{cityName,jdbcType=VARCHAR},
+      zip_code = #{zipCode,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=BIGINT},
+      date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      date_updated = #{dateUpdated,jdbcType=TIMESTAMP}
+    where city_id = #{cityId,jdbcType=BIGINT}
+  </update>
+
+  <select id="listCityByProvinceId" resultType="tcy.common.model.City">
+    SELECT
+      *
+    FROM
+      city
+    WHERE province_id = #{provinceId}
+    <if test="cityName != null">
+      AND city_name LIKE CONCAT('%',#{cityName},'%')
+    </if>
+  </select>
+</mapper>

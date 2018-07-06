@@ -23,6 +23,12 @@ public class ProductController extends BaseController{
     @Autowired
     private ProductService productService;
 
+    /**
+     * 首页
+     * @param page
+     * @param length
+     * @return
+     */
     @GetMapping("/list/v1.1")
     public ResponseVo listAllProduct(@RequestParam("page")Integer page,
                                      @RequestParam("length")Integer length){
