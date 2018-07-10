@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tcy.api.controller.BaseController;
 import tcy.api.vo.ProductTypeVo;
-import tcy.api.vo.ProductVo;
 import tcy.api.vo.ResponseVo;
 import tcy.common.exception.ResponseCode;
 import tcy.common.model.*;

@@ -21,11 +21,11 @@ public class Product {
 
     private BigDecimal retailPrice;
 
-    private Byte source;
+    private Integer source;
 
-    private Byte tag;
+    private Integer tag;
 
-    private Byte shelf;
+    private Integer shelf;
 
     private Date shelfTime;
 
@@ -33,7 +33,7 @@ public class Product {
 
     private Long integralConfigId;
 
-    private Byte subType;
+    private Integer subType;
 
     private String brands;
 
@@ -129,27 +129,27 @@ public class Product {
         this.retailPrice = retailPrice;
     }
 
-    public Byte getSource() {
+    public Integer getSource() {
         return source;
     }
 
-    public void setSource(Byte source) {
+    public void setSource(Integer source) {
         this.source = source;
     }
 
-    public Byte getTag() {
+    public Integer getTag() {
         return tag;
     }
 
-    public void setTag(Byte tag) {
+    public void setTag(Integer tag) {
         this.tag = tag;
     }
 
-    public Byte getShelf() {
+    public Integer getShelf() {
         return shelf;
     }
 
-    public void setShelf(Byte shelf) {
+    public void setShelf(Integer shelf) {
         this.shelf = shelf;
     }
 
@@ -177,11 +177,11 @@ public class Product {
         this.integralConfigId = integralConfigId;
     }
 
-    public Byte getSubType() {
+    public Integer getSubType() {
         return subType;
     }
 
-    public void setSubType(Byte subType) {
+    public void setSubType(Integer subType) {
         this.subType = subType;
     }
 }

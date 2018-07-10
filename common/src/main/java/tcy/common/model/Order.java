@@ -2,6 +2,7 @@ package tcy.common.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Order {
     private Long id;
@@ -14,13 +15,13 @@ public class Order {
 
     private BigDecimal shouldPayAmount;
 
-    private Byte status;
+    private Integer status;
 
     private Date createTime;
 
     private String tareOrderNum;
 
-    private Byte payType;
+    private Integer payType;
 
     private Date payTime;
 
@@ -29,6 +30,26 @@ public class Order {
     private String blankNum;
 
     private String waybillNumber;
+
+    private Integer delete;
+
+    private List<ProductVo> productVoList;
+
+    public List<ProductVo> getProductVoList() {
+        return productVoList;
+    }
+
+    public void setProductVoList(List<ProductVo> productVoList) {
+        this.productVoList = productVoList;
+    }
+
+    public Integer getDelete() {
+        return delete;
+    }
+
+    public void setDelete(Integer delete) {
+        this.delete = delete;
+    }
 
     public Long getId() {
         return id;
@@ -70,11 +91,11 @@ public class Order {
         this.shouldPayAmount = shouldPayAmount;
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -94,11 +115,11 @@ public class Order {
         this.tareOrderNum = tareOrderNum == null ? null : tareOrderNum.trim();
     }
 
-    public Byte getPayType() {
+    public Integer getPayType() {
         return payType;
     }
 
-    public void setPayType(Byte payType) {
+    public void setPayType(Integer payType) {
         this.payType = payType;
     }
 

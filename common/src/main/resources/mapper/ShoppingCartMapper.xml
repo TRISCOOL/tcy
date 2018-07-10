@@ -157,4 +157,35 @@
   <update id="deleteAllByUserId">
     UPDATE shopping_cart SET status = 3 WHERE user_id = #{userId} AND status = 0
   </update>
+
+  <select id="selectProductDetailsWithOrder" resultType="tcy.common.model.ProductVo">
+    SELECT
+    p.id AS productId,
+    p.`name`,
+    p.description,
+    p.sell_num,
+    p.brands,
+    p.retail_price,
+    pi.url,
+    cs.description,
+    co.`value`,
+    sc.num,
+    sc.cost,
+    cc.id AS ccId,
+    sc.id AS scId
+FROM
+    shopping_cart sc
+        LEFT JOIN
+    clothing_config cc ON sc.product_id = cc.product_id
+        LEFT JOIN
+    clothing_size cs ON cc.size_id = cs.id
+        LEFT JOIN
+    color co ON cc.color_id = co.id
+        LEFT JOIN
+    product p ON cc.product_id = p.id
+        LEFT JOIN
+    product_img pi ON pi.product_id = p.id
+WHERE
+    sc.order_id = #{orderId}
+  </select>
 </mapper>

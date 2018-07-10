@@ -1,6 +1,7 @@
 package tcy.common.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import tcy.common.model.ProductVo;
 import tcy.common.model.ShoppingCart;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface ShoppingCartMapper {
     List<ShoppingCart> listShoppingCartByUserId(@Param("userId")Long userId);
 
     int deleteAllByUserId(@Param("userId")Long userId);
+
+    List<ProductVo> selectProductDetailsWithOrder(@Param("orderId")Long orderId);
 }
