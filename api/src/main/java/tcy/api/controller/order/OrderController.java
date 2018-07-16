@@ -86,7 +86,7 @@ public class OrderController extends BaseController{
      */
     @PostMapping("/pay/v1.1")
     public ResponseVo confirmPay(@RequestParam("orderId")Long orderId,
-                                 @RequestParam("customerId")String customerIp){
+                                 @RequestParam("customerIp")String customerIp){
 
         PayResponseInfo responseInfo = orderService.confirmPay(orderId,customerIp);
 

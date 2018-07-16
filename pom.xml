@@ -14,6 +14,9 @@
     <name>tcy</name>
 
     <properties>
+        <main.basedir>${basedir}/..</main.basedir>
+        <m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
         <undertow.version>1.4.8.Final</undertow.version>
@@ -35,6 +38,7 @@
         <log4j.version>1.4</log4j.version>
         <lss-lass.version>0.0.1</lss-lass.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency> <!-- deprecated but recent version required by 3rd party libs -->

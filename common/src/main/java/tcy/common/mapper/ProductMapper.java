@@ -31,4 +31,9 @@ public interface ProductMapper {
     List<Product> selectProductForTag(@Param("tag")Integer tag);
 
     Product selectProductByClothingConfig(@Param("ccId")Long ccId);
+
+    List<Product> selectProductForEvaluated(@Param("userId")Long userId,
+                                            @Param("isAppraise")Integer isAppraise,
+                                            @Param("offset")Integer offset,
+                                            @Param("length")Integer length);
 }

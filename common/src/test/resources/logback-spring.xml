@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml"/>-->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{80}] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="ErrorFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/error.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_PATH}/error.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>90</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{80}] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="WarnFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/warn.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_PATH}/warn.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>90</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{80}] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 时间滚动输出 worklist定时任务 日志 -->
+    <appender name="scheduleTasksFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/scheduleTasks.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_PATH}/scheduleTasks.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>90</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{80}] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <logger name="leas.lsslass.schedule.ScheduleTasks" level="INFO" additivity="false">
+        <appender-ref ref="scheduleTasksFile"/>
+    </logger>
+
+    <!-- 时间滚动输出 level不为 error的其他日志 -->
+    <appender name="InfoFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/info.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_PATH}/info.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+            <MaxHistory>90</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{80}] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="ErrorFile"/>
+        <appender-ref ref="InfoFile"/>
+        <appender-ref ref="WarnFile"/>
+    </root>
+</configuration>
+

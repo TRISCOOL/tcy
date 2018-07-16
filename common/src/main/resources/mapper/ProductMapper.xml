@@ -274,4 +274,26 @@
   <select id="selectProductByClothingConfig" resultType="tcy.common.model.Product">
     SELECT p.* FROM clothing_config cc LEFT JOIN product p ON cc.product_id = p.id WHERE cc.id = #{ccId}
   </select>
+
+  <select id="selectProductForEvaluated" resultType="tcy.common.model.Product">
+    SELECT
+    p.*
+FROM
+    shopping_cart sc
+        LEFT JOIN
+    clothing_config cc ON sc.product_id = cc.id
+        LEFT JOIN
+    product p ON cc.product_id = p.id
+        LEFT JOIN
+    product_img pi ON p.id = pi.product_id
+        LEFT JOIN
+    `order` o ON sc.order_id = o.id
+WHERE
+    pi.type = 1 AND sc.user_id = #{userId}
+        AND sc.is_appraise = #{isAppraise}
+        AND o.status = 4
+    <if test="offset != null and length != null">
+      limit #{offset},#{length}
+    </if>
+  </select>
 </mapper>

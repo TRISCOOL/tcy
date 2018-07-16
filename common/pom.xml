@@ -112,6 +112,24 @@
             <artifactId>qiniu-java-sdk</artifactId>
             <version>[7.2.0, 7.2.99]</version>
         </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>single</groupId>
+            <artifactId>taobao-sdk</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${main.basedir}/libs/taobao-sdk-java-auto_1455552377940-20160607.jar</systemPath>
+        </dependency>
     </dependencies>
 
 </project>

@@ -13,7 +13,73 @@ public class Comment {
 
     private Long parentId;
 
-    private Byte leavel;
+    private Integer leavel;
+
+    private String content;
+    private String images;
+
+    private Integer deleted;
+
+    private String userName;
+
+    private String productName;
+    private String productDescription;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public Integer getLeavel() {
+        return leavel;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setLeavel(Integer leavel) {
+        this.leavel = leavel;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
 
     public Long getId() {
         return id;
@@ -53,13 +119,5 @@ public class Comment {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-
-    public Byte getLeavel() {
-        return leavel;
-    }
-
-    public void setLeavel(Byte leavel) {
-        this.leavel = leavel;
     }
 }

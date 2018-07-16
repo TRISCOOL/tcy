@@ -7,23 +7,18 @@
     <result column="product_id" property="productId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="images" property="images" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="leavel" property="leavel" jdbcType="TINYINT" />
+    <result column="deleted" property="deleted" jdbcType="TINYINT" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="tcy.common.model.CommentWithBLOBs" extends="BaseResultMap" >
-    <result column="content" property="content" jdbcType="LONGVARCHAR" />
-    <result column="images" property="images" jdbcType="LONGVARCHAR" />
-  </resultMap>
+
   <sql id="Base_Column_List" >
-    id, user_id, product_id, create_time, parent_id, leavel
+    id, user_id, product_id, create_time, parent_id, leavel,content,images,deleted
   </sql>
-  <sql id="Blob_Column_List" >
-    content, images
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from comment
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -33,11 +28,11 @@
   </delete>
   <insert id="insert" parameterType="tcy.common.model.CommentWithBLOBs" >
     insert into comment (id, user_id, product_id, 
-      create_time, parent_id, leavel, 
-      content, images)
+      create_time, parent_id, leavel,
+      content, images,deleted)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=BIGINT}, #{leavel,jdbcType=TINYINT}, 
-      #{content,jdbcType=LONGVARCHAR}, #{images,jdbcType=LONGVARCHAR})
+      #{content,jdbcType=LONGVARCHAR}, #{images,jdbcType=LONGVARCHAR},#{deleted,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="tcy.common.model.CommentWithBLOBs" >
     insert into comment
@@ -66,6 +61,9 @@
       <if test="images != null" >
         images,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -91,6 +89,9 @@
       </if>
       <if test="images != null" >
         #{images,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -118,6 +119,9 @@
       <if test="images != null" >
         images = #{images,jdbcType=LONGVARCHAR},
       </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -129,7 +133,8 @@
       parent_id = #{parentId,jdbcType=BIGINT},
       leavel = #{leavel,jdbcType=TINYINT},
       content = #{content,jdbcType=LONGVARCHAR},
-      images = #{images,jdbcType=LONGVARCHAR}
+      images = #{images,jdbcType=LONGVARCHAR},
+      deleted = #{deleted,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="tcy.common.model.Comment" >
@@ -138,7 +143,62 @@
       product_id = #{productId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       parent_id = #{parentId,jdbcType=BIGINT},
-      leavel = #{leavel,jdbcType=TINYINT}
+      leavel = #{leavel,jdbcType=TINYINT},
+      content = #{content,jdbcType=LONGVARCHAR},
+      deleted = #{deleted,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectCommentsByProductId" resultType="tcy.common.model.Comment">
+    SELECT
+      *,u.`name` AS userName
+    FROM
+      comment c
+    LEFT JOIN
+      `user` u ON c.user_id = u.id
+    WHERE
+      c.product_id = #{productId} AND c.deleted = 0
+    <if test="offset != null and length != null">
+      limit #{offset},#{length}
+    </if>
+    ORDER BY c.create_time DESC
+  </select>
+
+  <select id="countCommentNumByProduct" resultType="java.lang.Integer">
+    SELECT
+      COUNT(*)
+    FROM
+      comment c
+    WHERE
+      c.product_id = #{productId} AND c.deleted = 0
+  </select>
+
+  <select id="countCommentNumForStatus" resultType="java.lang.Integer">
+    select count(*)from comment where product_id = #{productId} and leavel = #{leavel}
+  </select>
+
+  <select id="countCommentNumForImages" resultType="java.lang.Integer">
+    select count(*) from comment where product_id = #{productId} and images is not null;
+  </select>
+
+  <select id="listCommentsByUser" resultType="tcy.common.model.Comment">
+    SELECT
+      *, p.name as productName, p.description as productDescription
+    FROM
+      comment c
+    LEFT JOIN
+      product p ON c.product_id = p.id
+    LEFT JOIN
+      product_img pi ON pi.product_id = p.id
+    WHERE
+      user_id = #{userId} AND pi.type = 1
+    <if test="offset != null and length != null">
+      limit #{offset},#{length}
+    </if>
+    ORDER BY c.create_time DESC;
+  </select>
+
+  <update id="deleteComment">
+    UPDATE comment SET deleted = 1 WHERE id = #{commentId}
   </update>
 </mapper>
