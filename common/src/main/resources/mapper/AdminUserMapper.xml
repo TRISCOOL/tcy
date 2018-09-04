@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.AdminUserMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.AdminUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="CHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, name, password, gender, avatar, phone, email, create_time, update_time, 
+    shop_id, token, uuid, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from admin_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.AdminUser" >
+    insert into admin_user (id, account, name, 
+      password, gender, avatar, 
+      phone, email, create_time, 
+      update_time, shop_id, token, 
+      uuid, state)
+    values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{shopId,jdbcType=BIGINT}, #{token,jdbcType=VARCHAR}, 
+      #{uuid,jdbcType=VARCHAR}, #{state,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.AdminUser" >
+    insert into admin_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=CHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.AdminUser" >
+    update admin_user
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.AdminUser" >
+    update admin_user
+    set account = #{account,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=CHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      shop_id = #{shopId,jdbcType=BIGINT},
+      token = #{token,jdbcType=VARCHAR},
+      uuid = #{uuid,jdbcType=VARCHAR},
+      state = #{state,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

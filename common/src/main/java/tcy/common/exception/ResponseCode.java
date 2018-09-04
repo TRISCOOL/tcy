@@ -8,6 +8,8 @@ public enum ResponseCode {
     PARAM_ILLEGAL("420","param is illegal"),
     //500-600
     SERVER_ERROR("500","server error"),
+    //600-700
+    FILE_UPLOAD_ERROR("601","file upload failed"),
     //1000-1100 product error
     PRODUCT_SHELF("1001","product have was shelfed"),
     //1100-1200

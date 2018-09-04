@@ -1,4 +1,4 @@
-package tcy.api.controller;
+package tcy.admin.controller;
 
 import com.google.gson.reflect.TypeToken;
 import org.slf4j.Logger;
@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
-import tcy.api.vo.ResponseVo;
 import tcy.common.exception.ResponseCode;
 import tcy.common.exception.TcyException;
 import tcy.common.model.User;
 import tcy.common.service.RedisService;
 import tcy.common.utils.Utils;
+import tcy.admin.vo.ResponseVo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;

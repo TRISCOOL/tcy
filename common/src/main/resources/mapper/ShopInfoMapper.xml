@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.ShopInfoMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.ShopInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="link_user" property="linkUser" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sale_count" property="saleCount" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, address, link_user, phone, sale_count, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from shop_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.ShopInfo" >
+    insert into shop_info (id, name, address, 
+      link_user, phone, sale_count, 
+      description)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{linkUser,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{saleCount,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.ShopInfo" >
+    insert into shop_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="linkUser != null" >
+        link_user,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="saleCount != null" >
+        sale_count,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUser != null" >
+        #{linkUser,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="saleCount != null" >
+        #{saleCount,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.ShopInfo" >
+    update shop_info
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUser != null" >
+        link_user = #{linkUser,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="saleCount != null" >
+        sale_count = #{saleCount,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.ShopInfo" >
+    update shop_info
+    set name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      link_user = #{linkUser,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      sale_count = #{saleCount,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

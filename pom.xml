@@ -8,6 +8,7 @@
     <modules>
         <module>common</module>
         <module>api</module>
+        <module>admin</module>
     </modules>
     <artifactId>tcy</artifactId>
     <packaging>pom</packaging>

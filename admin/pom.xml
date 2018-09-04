@@ -9,15 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>api</artifactId>
+    <artifactId>admin</artifactId>
     <packaging>war</packaging>
 
-    <name>api</name>
+    <name>admin</name>
+    <!-- FIXME change it to the project's website -->
+    <url>http://www.example.com</url>
 
     <properties>
-        <main.basedir>${basedir}/..</main.basedir>
-        <m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -117,21 +119,27 @@
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
             <version>1.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
-
     <build>
+        <finalName>admin</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
-                <configuration>
+<!--                <configuration>
                     <fork>true</fork>
                     <jvmArguments>
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
                     </jvmArguments>
-                </configuration>
+                </configuration>-->
                 <executions>
                     <execution>
                         <goals>

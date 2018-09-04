@@ -114,4 +114,19 @@ public class PushServiceImpl implements PushService{
         return false;
     }
 
+    @Override
+    public boolean pushBirthday(Long userId, String name, String code) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null){
+            logger.error("not found this user id is {}",userId);
+        }
+
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("code",code);
+        params.put("name",name);
+
+        push(user.getPhone(),"SMS_142153987", Utils.toJson(params));
+        return true;
+    }
+
 }

@@ -16,7 +16,8 @@ public class PushServiceTest {
 
     @Test
     public void test(){
-        pushService.pushVerificationCode(1L,"123");
+        pushService.pushBirthday(1L,"曲悠"," ");
     }
+
 
 }

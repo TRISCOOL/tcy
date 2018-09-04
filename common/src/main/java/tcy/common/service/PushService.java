@@ -9,4 +9,6 @@ public interface PushService {
     boolean pushShip(Long userId,String orderNumber);
 
     boolean pushTradeFinished(Long userId,String orderNumber);
+
+    boolean pushBirthday(Long userId,String name,String code);
 }
