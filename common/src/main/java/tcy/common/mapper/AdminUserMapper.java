@@ -1,5 +1,6 @@
 package tcy.common.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import tcy.common.model.AdminUser;
 
 public interface AdminUserMapper {
@@ -14,4 +15,6 @@ public interface AdminUserMapper {
     int updateByPrimaryKeySelective(AdminUser record);
 
     int updateByPrimaryKey(AdminUser record);
+
+    AdminUser selectByAccount(@Param("account")String account);
 }

@@ -2,6 +2,10 @@ package tcy.common.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import tcy.common.dto.ClothesConfigDto;
+import tcy.common.dto.StockMangerDTO;
+import tcy.common.exception.TcyException;
 import tcy.common.mapper.*;
 import tcy.common.model.*;
 import tcy.common.service.ProductService;
@@ -105,5 +109,125 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Product getProductByClothingConfig(Long ccId) {
         return productMapper.selectProductByClothingConfig(ccId);
+    }
+
+    @Override
+    public List<Color> listAllColor() {
+        return colorMapper.listAllColor();
+    }
+
+    @Override
+    public List<ClothingSize> listAllSize() {
+        return clothingSizeMapper.listAllSize();
+    }
+
+    @Override
+    @Transactional
+    public Long addProduct(Product product) {
+
+        productMapper.insertSelective(product);
+        if (product.getId() == null)
+            throw new TcyException("insert product failed cause by not get id");
+
+        List<ClothesConfigDto> clothesConfigDtos = product.getConfigDtos();
+        //添加具体的服装配置详情
+        addClothConfig(product.getId(),clothesConfigDtos);
+        //添加图片
+        addImagesForProduct(product.getDetailsImages(),product.getUrl(),product.getId());
+
+        return product.getId();
+    }
+
+    @Override
+    public List<Product> listProductByShelf(Integer isShelf, String found, Long shopId,Integer offset,Integer length) {
+        return productMapper.listProductForShelf(isShelf,found,shopId,offset,length);
+    }
+
+    @Override
+    public boolean shelfProduct(Integer isShelf, Long productId) {
+        int result = productMapper.shelfProductById(isShelf,productId);
+        if (result != 0){
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public List<ClothingConfig> configListByProduct(Long productId) {
+        return clothingConfigMapper.configListByProduct(productId);
+    }
+
+    @Override
+    @Transactional
+    public boolean updateStock(List<StockMangerDTO> stockMangerDTOList,Long productId) {
+        if (stockMangerDTOList.size() <= 0)
+            return false;
+
+        for (StockMangerDTO dto : stockMangerDTOList){
+            clothingConfigMapper.updateStockById(dto.getStockNum(),dto.getConfigId());
+        }
+
+        List<ClothingConfig> configs = clothingConfigMapper.configListByProduct(productId);
+        Integer everyStockNum = 0;
+        for (ClothingConfig clothingConfig : configs){
+            everyStockNum = everyStockNum + clothingConfig.getStockNum();
+        }
+
+        if (everyStockNum != 0){
+            Product product = new Product();
+            product.setStock(everyStockNum);
+            product.setId(productId);
+            productMapper.updateByPrimaryKeySelective(product);
+        }
+
+        return true;
+    }
+
+    private void addImagesForProduct(List<String> detailsImages,String mainUrl,Long productId){
+        if (mainUrl != null){
+            ProductImg productImg = new ProductImg();
+            productImg.setProductId(productId);
+            productImg.setType(1+"");
+            productImg.setUrl(mainUrl);
+            productImgMapper.insertSelective(productImg);
+        }
+
+        if (detailsImages != null && detailsImages.size() > 0){
+            for (String url : detailsImages){
+                ProductImg productImg = new ProductImg();
+                productImg.setUrl(url);
+                productImg.setType(2+"");
+                productImg.setProductId(productId);
+                productImgMapper.insertSelective(productImg);
+            }
+        }
+    }
+
+    private void addClothConfig(Long productId,List<ClothesConfigDto> configDtos){
+        if (configDtos == null)
+            return;
+
+        if (configDtos.size() <= 0)
+            return;
+
+        for (ClothesConfigDto configDto : configDtos){
+            ClothingConfig clothingConfig = getConfig(configDto,productId);
+            clothingConfigMapper.insertSelective(clothingConfig);
+        }
+
+    }
+
+    private ClothingConfig getConfig(ClothesConfigDto dto,Long productId){
+        ClothingConfig clothingConfig = new ClothingConfig();
+        clothingConfig.setColorId(dto.getColorId());
+        clothingConfig.setSellNum(0);
+        clothingConfig.setColorValue(dto.getColorValue());
+        clothingConfig.setProductId(productId);
+        clothingConfig.setSizeValue(dto.getSizeValue());
+        clothingConfig.setSizeId(dto.getSizeId());
+        clothingConfig.setStockNum(dto.getNum());
+        clothingConfig.setDescription(dto.getSizeValue()+"/"+dto.getColorValue());
+        return clothingConfig;
     }
 }

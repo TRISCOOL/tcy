@@ -48,7 +48,7 @@
       #{brands,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="tcy.common.model.Product" >
+  <insert id="insertSelective" parameterType="tcy.common.model.Product" keyProperty="id" useGeneratedKeys="true">
     insert into product
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -296,4 +296,26 @@ WHERE
       limit #{offset},#{length}
     </if>
   </select>
+
+  <select id="listProductForShelf" resultType="tcy.common.model.Product">
+    SELECT
+      *,img.url
+    FROM
+      product p
+    LEFT JOIN product_img img ON p.id = img.product_id
+    WHERE
+      p.shelf = #{isShelf} AND img.type = 1
+    <if test="found != null">
+      AND p.name LIKE CONCAT('%', #{found}, '%')
+    </if>
+    AND source = #{shopId}
+    ORDER BY p.storage_time DESC
+    <if test="offset != null and length != null">
+      limit #{offset},#{length}
+    </if>
+  </select>
+
+  <update id="shelfProductById">
+    UPDATE product SET shelf = #{isShelf} WHERE id = #{productId}
+  </update>
 </mapper>

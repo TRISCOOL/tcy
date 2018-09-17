@@ -5,9 +5,18 @@ public class ProductImg {
 
     private String url;
 
-    private String productId;
+    private Long productId;
 
     private String type;
+
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
 
     public Long getId() {
         return id;
@@ -23,14 +32,6 @@ public class ProductImg {
 
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId == null ? null : productId.trim();
     }
 
     public String getType() {

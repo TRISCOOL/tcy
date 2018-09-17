@@ -1,5 +1,7 @@
 package tcy.common.model;
 
+import tcy.common.dto.ClothesConfigDto;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +42,16 @@ public class Product {
     private String url;
 
     private List<String> detailsImages;
+
+    public List<ClothesConfigDto> getConfigDtos() {
+        return configDtos;
+    }
+
+    public void setConfigDtos(List<ClothesConfigDto> configDtos) {
+        this.configDtos = configDtos;
+    }
+
+    private List<ClothesConfigDto> configDtos;
 
     public List<String> getDetailsImages() {
         return detailsImages;

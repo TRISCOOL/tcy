@@ -143,4 +143,12 @@
   <select id="selectOneByAllId" resultType="tcy.common.model.ClothingConfig">
     select *from clothing_config where product_id = #{productId} and color_id = #{colorId} and size_id = #{sizeId};
   </select>
+
+  <select id="configListByProduct" resultType="tcy.common.model.ClothingConfig">
+    select *from clothing_config where product_id = #{productId};
+  </select>
+
+  <update id="updateStockById">
+    UPDATE clothing_config SET stock_num = #{stockNum} WHERE id = #{productId}
+  </update>
 </mapper>

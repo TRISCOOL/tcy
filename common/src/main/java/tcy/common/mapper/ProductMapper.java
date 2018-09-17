@@ -36,4 +36,12 @@ public interface ProductMapper {
                                             @Param("isAppraise")Integer isAppraise,
                                             @Param("offset")Integer offset,
                                             @Param("length")Integer length);
+
+    List<Product> listProductForShelf(@Param("isShelf")Integer isShelf,
+                                      @Param("found")String found,
+                                      @Param("shopId")Long shopId,
+                                      @Param("offset")Integer offset,
+                                      @Param("length")Integer length);
+
+    int shelfProductById(@Param("isShelf")Integer isShelf,@Param("productId")Long productId);
 }

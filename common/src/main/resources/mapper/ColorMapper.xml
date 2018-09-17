@@ -93,4 +93,8 @@
     AND cc.size_id = #{sizeId}
     GROUP BY cc.color_id;
   </select>
+
+  <select id="listAllColor" resultType="tcy.common.model.Color">
+    SELECT *FROM color
+  </select>
 </mapper>

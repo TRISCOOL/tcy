@@ -5,6 +5,8 @@ public class Color {
 
     private String value;
 
+    private String valueCode;
+
     private String imgUrl;
 
     public Long getId() {
@@ -29,5 +31,13 @@ public class Color {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl == null ? null : imgUrl.trim();
+    }
+
+    public String getValueCode() {
+        return valueCode;
+    }
+
+    public void setValueCode(String valueCode) {
+        this.valueCode = valueCode;
     }
 }

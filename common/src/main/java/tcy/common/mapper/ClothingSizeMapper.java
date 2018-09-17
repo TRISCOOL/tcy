@@ -22,4 +22,6 @@ public interface ClothingSizeMapper {
 
     List<ClothingSize> selectSizeWithProductIdAndColorId(@Param("productId")Long productId,
                                                          @Param("colorId")Long colorId);
+
+    List<ClothingSize> listAllSize();
 }

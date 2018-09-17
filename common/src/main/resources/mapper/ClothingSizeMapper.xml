@@ -94,4 +94,8 @@
     GROUP BY cc.size_id;
   </select>
 
+  <select id="listAllSize" resultType="tcy.common.model.ClothingSize">
+    select *from clothing_size
+  </select>
+
 </mapper>

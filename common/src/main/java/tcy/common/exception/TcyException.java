@@ -25,7 +25,9 @@ public class TcyException extends RuntimeException{
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    public TcyException(ResponseCode code){
+    public TcyException(ResponseCode code)
+    {
+        super(code.getMessage());
         this.errorCode = code;
     }
 

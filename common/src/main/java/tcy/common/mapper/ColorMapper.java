@@ -21,4 +21,6 @@ public interface ColorMapper {
     List<Color> selectColorsByProductId(@Param("productId")Long productId);
 
     List<Color> selectColorsByProductIdAndSizeId(@Param("productId")Long productId,@Param("sizeId")Long sizeId);
+
+    List<Color> listAllColor();
 }

@@ -196,4 +196,8 @@
       state = #{state,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByAccount" resultType="tcy.common.model.AdminUser">
+    select ad.*,si.name AS shopName from admin_user ad LEFT JOIN shop_info si ON ad.shop_id = si.id WHERE ad.account = #{account};
+  </select>
 </mapper>
