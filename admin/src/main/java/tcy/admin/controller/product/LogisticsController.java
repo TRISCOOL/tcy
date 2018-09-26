@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tcy.admin.controller.BaseController;
 import tcy.admin.vo.ResponseVo;
+import tcy.common.dto.LogisticsResponseDTO;
+import tcy.common.dto.LogisticsTracesResponseDTO;
 import tcy.common.exception.ResponseCode;
 import tcy.common.model.Order;
 import tcy.common.service.OrderService;
@@ -49,6 +51,15 @@ public class LogisticsController extends BaseController{
     }
 
     /**
+     * 快递公司列表
+     * @return
+     */
+    @GetMapping("/courier_list/v1.1")
+    public ResponseVo listCourierCompanies(){
+        return ResponseVo.ok(orderService.listCourierCompanies());
+    }
+
+    /**
      * 录入运单号
      * @param expressNo
      * @param orderId
@@ -56,7 +67,8 @@ public class LogisticsController extends BaseController{
      */
     @PostMapping("/enter/v1.1")
     public ResponseVo enterExpressDelivery(@RequestParam("expressNo")String expressNo,
-                                           @RequestParam("orderId")Long orderId){
+                                           @RequestParam("orderId")Long orderId,
+                                           @RequestParam("courierId")Long courierId){
 
         Order order = orderService.selectOrderById(orderId);
         if (order == null){
@@ -65,11 +77,35 @@ public class LogisticsController extends BaseController{
 
         order.setWaybillNumber(expressNo);
         order.setStatus(3);
+        order.setCourierCompanyId(courierId);
         boolean result = orderService.updateByPrimaryKeySelective(order);
         if (result)
             return ResponseVo.ok();
 
         return ResponseVo.error(ResponseCode.SERVER_ERROR);
+    }
+
+    /**
+     * 根据订单号查询物流轨迹
+     * @return
+     */
+    @GetMapping("/logistics_traces/v1.1")
+    public ResponseVo getLogisticsTraces(@RequestParam("orderId")Long orderId){
+        LogisticsResponseDTO response = orderService.logisticsDetails(orderId);
+        if (response == null){
+            return ResponseVo.error(ResponseCode.NOT_FOUND_LOGISTICS_DETAILS);
+        }
+
+        List<LogisticsTracesResponseDTO> traces = response.getTraces();
+        if (traces == null){
+            return ResponseVo.ok(response.getReason());
+        }
+
+        if (traces.size() <= 0){
+            return ResponseVo.ok(response.getReason());
+        }
+
+        return ResponseVo.ok(traces);
     }
 
 

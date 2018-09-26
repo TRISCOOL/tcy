@@ -1,5 +1,7 @@
 package tcy.common.service;
 
+import tcy.common.dto.LogisticsResponseDTO;
+import tcy.common.model.CourierCompany;
 import tcy.common.model.Order;
 import tcy.common.model.OrderVo;
 import tcy.common.model.ShoppingCart;
@@ -32,5 +34,9 @@ public interface OrderService {
     boolean updateByPrimaryKeySelective(Order order);
 
     List<Order> listOrderByStatusAndShop(Long shopId,Integer status,Integer offset,Integer length);
+
+    List<CourierCompany> listCourierCompanies();
+
+    LogisticsResponseDTO logisticsDetails(Long orderId);
 
 }

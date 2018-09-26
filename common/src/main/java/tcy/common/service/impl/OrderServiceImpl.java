@@ -1,8 +1,11 @@
 package tcy.common.service.impl;
 
+import com.google.gson.reflect.TypeToken;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -17,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tcy.common.dto.LogisticsResponseDTO;
 import tcy.common.exception.ResponseCode;
 import tcy.common.exception.TcyException;
 import tcy.common.mapper.*;
@@ -49,9 +53,15 @@ public class OrderServiceImpl implements OrderService{
     private AddressMapper addressMapper;
 
     @Autowired
+    private CourierCompanyMapper courierCompanyMapper;
+
+    @Autowired
     private ClothingConfigMapper clothingConfigMapper;
 
     private static String WXXDURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+
+    private static String LOGISTICS_QUERY = "http://wdexpress.market.alicloudapi.com/gxali";
+    private static String LOGISTICS_CODE = "af669cc2334f4d1698bace8101c078ae";
 
     private static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -286,6 +296,45 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<Order> listOrderByStatusAndShop(Long shopId, Integer status,Integer offset,Integer length) {
         return orderMapper.listOrderByStatusAndShop(shopId,status,offset,length);
+    }
+
+    @Override
+    public List<CourierCompany> listCourierCompanies() {
+        return courierCompanyMapper.listAll();
+    }
+
+    @Override
+    public LogisticsResponseDTO logisticsDetails(Long orderId) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        if (order.getWaybillNumber() == null || order.getCourierCompanyId() == null)
+            return null;
+
+        CourierCompany courierCompany = courierCompanyMapper.selectByPrimaryKey(order.getCourierCompanyId());
+        if (courierCompany != null){
+            return queryLogistics(order.getWaybillNumber(),courierCompany.getCode());
+        }
+        return null;
+    }
+
+    private LogisticsResponseDTO queryLogistics(String logisticsNum,String courierCode){
+
+        String url = LOGISTICS_QUERY+"?n="+logisticsNum+"&t="+courierCode;
+        try {
+            CloseableHttpClient client = HttpClients.custom().build();
+            HttpGet get = new HttpGet(url);
+            get.setHeader("Authorization", "APPCODE " + LOGISTICS_CODE);
+
+            CloseableHttpResponse response = client.execute(get);
+            int code = response.getStatusLine().getStatusCode();
+            if (code == HttpStatus.SC_OK){
+                String responseStr =  EntityUtils.toString(response.getEntity());
+                return Utils.fromJson(responseStr,new TypeToken<LogisticsResponseDTO>(){});
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private void updateShoppingCartStatus(ProductVo productVo){

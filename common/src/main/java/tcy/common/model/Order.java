@@ -42,6 +42,15 @@ public class Order {
     private String detailAddress;
     private String contact;
     private String contactPhone;
+    private Long courierCompanyId;
+
+    public Long getCourierCompanyId() {
+        return courierCompanyId;
+    }
+
+    public void setCourierCompanyId(Long courierCompanyId) {
+        this.courierCompanyId = courierCompanyId;
+    }
 
     public String getProvince() {
         return province;
