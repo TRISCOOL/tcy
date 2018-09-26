@@ -41,6 +41,34 @@ public class Product {
 
     private String url;
 
+    private String sizeDescription;
+    private String colorValue;
+    private String colorCode;
+
+    public String getSizeDescription() {
+        return sizeDescription;
+    }
+
+    public void setSizeDescription(String sizeDescription) {
+        this.sizeDescription = sizeDescription;
+    }
+
+    public String getColorValue() {
+        return colorValue;
+    }
+
+    public void setColorValue(String colorValue) {
+        this.colorValue = colorValue;
+    }
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(String colorCode) {
+        this.colorCode = colorCode;
+    }
+
     private List<String> detailsImages;
 
     public List<ClothesConfigDto> getConfigDtos() {

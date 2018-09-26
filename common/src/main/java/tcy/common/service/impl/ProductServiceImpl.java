@@ -184,6 +184,11 @@ public class ProductServiceImpl implements ProductService{
         return true;
     }
 
+    @Override
+    public List<Product> listProductByOrderId(Long orderId) {
+        return productMapper.listProductByOrderId(orderId);
+    }
+
     private void addImagesForProduct(List<String> detailsImages,String mainUrl,Long productId){
         if (mainUrl != null){
             ProductImg productImg = new ProductImg();

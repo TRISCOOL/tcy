@@ -31,4 +31,6 @@ public interface OrderService {
 
     boolean updateByPrimaryKeySelective(Order order);
 
+    List<Order> listOrderByStatusAndShop(Long shopId,Integer status,Integer offset,Integer length);
+
 }

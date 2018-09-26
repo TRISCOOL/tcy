@@ -21,4 +21,9 @@ public interface OrderMapper {
     Order selectOrderByOrderNumberAndStatus(@Param("orderNumber")String orderNumber);
 
     List<Order> selectOrdersByStatusAndUser(@Param("status")Integer status,@Param("userId")Long userId);
+
+    List<Order> listOrderByStatusAndShop(@Param("shopId")Long shopId,
+                                         @Param("status")Integer status,
+                                         @Param("offset")Integer offset,
+                                         @Param("length")Integer length);
 }

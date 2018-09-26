@@ -59,4 +59,18 @@ public class RedisServiceImpl implements RedisService {
             jedis.del(key);
         }
     }
+
+    @Override
+    public Long incrby(String key, Integer add) {
+        try (Jedis jedis = pool.getResource()){
+            return jedis.incrBy(key,add);
+        }
+    }
+
+    @Override
+    public void setExpire(String key, Long timeout) {
+        try (Jedis jedis = pool.getResource()){
+            jedis.expire(key,Integer.parseInt(timeout+""));
+        }
+    }
 }

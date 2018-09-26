@@ -16,10 +16,11 @@
     <result column="blank_num" property="blankNum" jdbcType="VARCHAR" />
     <result column="waybill_number" property="waybillNumber" jdbcType="VARCHAR" />
     <result column="delete" property="delete" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, order_number, actually_paid, should_pay_amount, status, create_time, 
-    tare_order_num, pay_type, pay_time, address_id, blank_num, waybill_number,`delete`
+    tare_order_num, pay_type, pay_time, address_id, blank_num, waybill_number,`delete`,shop_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -36,12 +37,12 @@
       actually_paid, should_pay_amount, status, 
       create_time, tare_order_num, pay_type, 
       pay_time, address_id, blank_num, 
-      waybill_number,`delete`)
+      waybill_number,`delete`,shop_id)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{orderNumber,jdbcType=VARCHAR}, 
       #{actuallyPaid,jdbcType=DECIMAL}, #{shouldPayAmount,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{tareOrderNum,jdbcType=VARCHAR}, #{payType,jdbcType=TINYINT}, 
       #{payTime,jdbcType=TIMESTAMP}, #{addressId,jdbcType=BIGINT}, #{blankNum,jdbcType=VARCHAR}, 
-      #{waybillNumber,jdbcType=VARCHAR},#{delete})
+      #{waybillNumber,jdbcType=VARCHAR},#{delete},#{shopId})
   </insert>
   <insert id="insertSelective" parameterType="tcy.common.model.Order" keyProperty="id" useGeneratedKeys="true">
     insert into order
@@ -88,6 +89,9 @@
       <if test="delete != null">
         `delete`,
       </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -131,6 +135,9 @@
       </if>
       <if test="delete != null">
         #{delete},
+      </if>
+      <if test="shopId != null">
+        #{shopId},
       </if>
     </trim>
   </insert>
@@ -176,6 +183,9 @@
       <if test="delete != null">
         `delete` = #{delete},
       </if>
+      <if test="shopId != null">
+        shop_id = #{shopId},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -193,7 +203,8 @@
       address_id = #{addressId,jdbcType=BIGINT},
       blank_num = #{blankNum,jdbcType=VARCHAR},
       waybill_number = #{waybillNumber,jdbcType=VARCHAR},
-      `delete` = #{delete}
+      `delete` = #{delete},
+      shop_id = #{shopId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
@@ -217,5 +228,28 @@
     </if>
     AND delete = 0
     ORDER BY create_time ;
+  </select>
+
+  <select id="listOrderByStatusAndShop" resultType="tcy.common.model.Order">
+    SELECT
+      o.*,
+      a.province,
+      a.city,
+      a.detail_address AS detailAddress,
+      a.contact,
+      a.contact_phone AS contactPhone
+    FROM
+      `order` o
+    LEFT JOIN
+      address a ON o.address_id = a.id
+    WHERE
+      o.shop_id = #{shopId}
+    <if test="status != null">
+      AND o.status = #{status}
+    </if>
+    ORDER BY o.id DESC
+    <if test="offset != null and length != null">
+      LIMIT #{offset}, #{length}
+    </if>
   </select>
 </mapper>

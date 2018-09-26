@@ -14,4 +14,14 @@ public interface RedisService {
     boolean exists(String key);
 
     void delStr(String key);
+
+    /**
+     *
+     * @param key 自增的key
+     * @param add 自增的步长
+     * @return
+     */
+    Long incrby(String key,Integer add);
+
+    void setExpire(String key,Long timeout);
 }

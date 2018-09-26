@@ -13,6 +13,7 @@ import tcy.common.model.User;
 import tcy.common.model.wx.PayResponseInfo;
 import tcy.common.model.wx.WxNotify;
 import tcy.common.service.OrderService;
+import tcy.common.service.RedisService;
 import tcy.common.utils.DateTimeUtil;
 import tcy.common.utils.Utils;
 import tcy.common.utils.WxPayUtils;
@@ -34,6 +35,11 @@ public class OrderController extends BaseController{
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private RedisService redisService;
+
+    private static final String CALL_BACK_KEY = "callback";
 
     /**
      * 创建订单
@@ -116,12 +122,12 @@ public class OrderController extends BaseController{
                     return wxPayResponseSuccess();
                 }
 
-                synchronized (order){
+                if (isContinue(notify.getOut_trade_no())){
                     Order order1 = orderService.selectOrderForCallBack(notify.getOut_trade_no());
                     if (order1.getStatus().equals(2))
                         return wxPayResponseSuccess();
 
-                    if (order1.getStatus().equals(1)){
+                    if (order1.getStatus().equals(0)){
                         boolean result = updateOrder(order1,notify);
                         if (result){
                             return wxPayResponseSuccess();
@@ -135,6 +141,17 @@ public class OrderController extends BaseController{
         }
 
         return "";
+    }
+
+    public boolean isContinue(String orderNo){
+        String key = CALL_BACK_KEY+orderNo;
+        Long result = redisService.incrby(key,1);
+        if (result == 1L){
+            redisService.setExpire(key,2L);
+            return true;
+        }
+
+        return false;
     }
 
     private boolean updateOrder(Order order,WxNotify notify){

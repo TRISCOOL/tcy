@@ -283,6 +283,11 @@ public class OrderServiceImpl implements OrderService{
         return false;
     }
 
+    @Override
+    public List<Order> listOrderByStatusAndShop(Long shopId, Integer status,Integer offset,Integer length) {
+        return orderMapper.listOrderByStatusAndShop(shopId,status,offset,length);
+    }
+
     private void updateShoppingCartStatus(ProductVo productVo){
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setStatus(2);

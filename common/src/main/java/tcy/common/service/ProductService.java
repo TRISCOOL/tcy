@@ -44,4 +44,6 @@ public interface ProductService {
     List<ClothingConfig> configListByProduct(Long productId);
 
     boolean updateStock(List<StockMangerDTO> stockMangerDTOList,Long productId);
+
+    List<Product> listProductByOrderId(Long orderId);
 }
