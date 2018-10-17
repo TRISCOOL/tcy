@@ -17,4 +17,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User selectUserByOpenId(@Param("openId")String openId);
+
+    User selectUserByIdForScore(@Param("userId")Long userId);
 }

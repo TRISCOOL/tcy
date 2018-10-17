@@ -225,20 +225,20 @@
 
   <select id="selectOrdersByStatusAndUser" resultType="tcy.common.model.Order">
     select *from `order` where user_id = #{userId}
-    <if test="status = 0">
+    <if test="status == 0">
       AND status = 0
     </if>
-    <if test="status = 1">
+    <if test="status == 1">
       AND (status = 1 OR status = 2 OR status = 3)
     </if>
-    <if test="status = 2">
+    <if test="status == 2">
       AND status = 4
     </if>
-    <if test="status = 3">
+    <if test="status == 3">
       AND status = 5
     </if>
-    AND delete = 0
-    ORDER BY create_time ;
+    AND `delete` = 0
+    ORDER BY create_time DESC
   </select>
 
   <select id="listOrderByStatusAndShop" resultType="tcy.common.model.Order">

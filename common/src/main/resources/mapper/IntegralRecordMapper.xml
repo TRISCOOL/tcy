@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.IntegralRecordMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.IntegralRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="operation_type" property="operationType" jdbcType="TINYINT" />
+    <result column="money_value" property="moneyValue" jdbcType="DECIMAL" />
+    <result column="integral_value" property="integralValue" jdbcType="DECIMAL" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="shared_id" property="sharedId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, operation_type, money_value, integral_value, product_id, shared_id, 
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from integral_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from integral_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.IntegralRecord" >
+    insert into integral_record (id, user_id, operation_type, 
+      money_value, integral_value, product_id, 
+      shared_id, create_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{operationType,jdbcType=TINYINT}, 
+      #{moneyValue,jdbcType=DECIMAL}, #{integralValue,jdbcType=DECIMAL}, #{productId,jdbcType=BIGINT}, 
+      #{sharedId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.IntegralRecord" >
+    insert into integral_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="operationType != null" >
+        operation_type,
+      </if>
+      <if test="moneyValue != null" >
+        money_value,
+      </if>
+      <if test="integralValue != null" >
+        integral_value,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="sharedId != null" >
+        shared_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="operationType != null" >
+        #{operationType,jdbcType=TINYINT},
+      </if>
+      <if test="moneyValue != null" >
+        #{moneyValue,jdbcType=DECIMAL},
+      </if>
+      <if test="integralValue != null" >
+        #{integralValue,jdbcType=DECIMAL},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="sharedId != null" >
+        #{sharedId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.IntegralRecord" >
+    update integral_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="operationType != null" >
+        operation_type = #{operationType,jdbcType=TINYINT},
+      </if>
+      <if test="moneyValue != null" >
+        money_value = #{moneyValue,jdbcType=DECIMAL},
+      </if>
+      <if test="integralValue != null" >
+        integral_value = #{integralValue,jdbcType=DECIMAL},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="sharedId != null" >
+        shared_id = #{sharedId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.IntegralRecord" >
+    update integral_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      operation_type = #{operationType,jdbcType=TINYINT},
+      money_value = #{moneyValue,jdbcType=DECIMAL},
+      integral_value = #{integralValue,jdbcType=DECIMAL},
+      product_id = #{productId,jdbcType=BIGINT},
+      shared_id = #{sharedId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

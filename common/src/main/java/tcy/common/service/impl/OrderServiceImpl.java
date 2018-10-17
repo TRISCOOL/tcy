@@ -11,15 +11,14 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import tcy.common.dto.LogisticsResponseDTO;
 import tcy.common.exception.ResponseCode;
 import tcy.common.exception.TcyException;
@@ -32,6 +31,7 @@ import tcy.common.utils.DateTimeUtil;
 import tcy.common.utils.Utils;
 import tcy.common.utils.WxPayUtils;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -57,6 +57,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private ClothingConfigMapper clothingConfigMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     private static String WXXDURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
@@ -166,17 +169,19 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public PayResponseInfo confirmPay(Long orderId,String spBillCreateIp) {
         Order order = orderMapper.selectByPrimaryKey(orderId);
-        PayInfo payInfo = PayInfo.getPayInfo(order);
+        User user = userMapper.selectByPrimaryKey(order.getUserId());
+        PayInfo payInfo = PayInfo.getPayInfo(order,spBillCreateIp);
+        payInfo.setOpenId(user.getOpenId());
+
         String nonceStr = WxPayUtils.getNonceStr();
         payInfo.setNonceStr(nonceStr);
         String sign = WxPayUtils.getPaySign(payInfo);
         payInfo.setSign(sign);
         payInfo.setSpbillCreateIp(spBillCreateIp);
 
-        Document payXml = getXmlByPayInfo(payInfo);
-        String xml = payXml.asXML();
+        String payXmlStr = payXmlStr = getXmlByPayInfo(payInfo);
 
-        PayResponseInfo responseInfo = connectWxPay(xml,WXXDURL);
+        PayResponseInfo responseInfo = connectWxPay(payXmlStr,WXXDURL);
 
         order.setStatus(1);
         orderMapper.updateByPrimaryKeySelective(order);
@@ -196,7 +201,8 @@ public class OrderServiceImpl implements OrderService{
             CloseableHttpResponse response = httpClient.execute(post);
             int code = response.getStatusLine().getStatusCode();
             if (code == HttpStatus.SC_OK){
-                String content = EntityUtils.toString(response.getEntity());
+                String content = EntityUtils.toString(response.getEntity(),"UTF-8");
+                logger.info(content);
                 PayResponseInfo responseInfo = analysisPaResponseXMl(content);
                 if (responseInfo == null)
                     throw new TcyException(ResponseCode.SERVER_ERROR);
@@ -205,9 +211,7 @@ public class OrderServiceImpl implements OrderService{
                         responseInfo.getReturnCode().equals("SUCCESS") && responseInfo.getResultCode().equals("SUCCESS")){
                     return responseInfo;
                 }else {
-                    logger.error("wx pay response error return code is {},result code is {}",
-                            responseInfo.getReturnCode(),
-                            responseInfo.getResultCode());
+                    logger.error("wx pay failed cause by {}",content);
                     throw new TcyException();
                 }
 
@@ -222,7 +226,7 @@ public class OrderServiceImpl implements OrderService{
 
     private PayResponseInfo analysisPaResponseXMl(String xml){
         try {
-            Document document = DocumentHelper.parseText(xml);
+            org.dom4j.Document document = DocumentHelper.parseText(xml);
             PayResponseInfo payResponseInfo = PayResponseInfo.getPayResponseInfo(document);
             return payResponseInfo;
         } catch (DocumentException e) {
@@ -231,21 +235,24 @@ public class OrderServiceImpl implements OrderService{
         }
     }
 
-    private Document getXmlByPayInfo(PayInfo payInfo){
-        Document document = DocumentHelper.createDocument();
+    private String getXmlByPayInfo(PayInfo payInfo){
 
-        document.addElement("appid").setText(payInfo.getAppId());
-        document.addElement("body").setText(payInfo.getBody());
-        document.addElement("mch_id").setText(payInfo.getMchId());
-        document.addElement("nonce_str").setText(payInfo.getNonceStr());
-        document.addElement("notify_url").setText(payInfo.getNotifyUrl());
-        document.addElement("out_trade_no").setText(payInfo.getOutTradeNo());
-        document.addElement("spbill_create_ip").setText(payInfo.getSpbillCreateIp());
-        document.addElement("total_fee").setText(payInfo.getTotalFee());
-        document.addElement("trade_type").setText(payInfo.getTradeType());
-        document.addElement("sign").setText(payInfo.getSign());
+        StringBuffer sb = new StringBuffer();
+        sb.append("<xml>");
+        sb.append("<appid>"+payInfo.getAppId()+"</appid>");
+        sb.append("<mch_id>"+payInfo.getMchId()+"</mch_id>");
+        sb.append("<nonce_str>"+payInfo.getNonceStr()+"</nonce_str>");
+        sb.append("<sign>"+payInfo.getSign()+"</sign>");
+        sb.append("<body>"+payInfo.getBody()+"</body>");
+        sb.append("<out_trade_no>"+payInfo.getOutTradeNo()+"</out_trade_no>");
+        sb.append("<total_fee>"+payInfo.getTotalFee()+"</total_fee>");
+        sb.append("<spbill_create_ip>"+payInfo.getSpbillCreateIp()+"</spbill_create_ip>");
+        sb.append("<notify_url>"+payInfo.getNotifyUrl()+"</notify_url>");
+        sb.append("<trade_type>"+payInfo.getTradeType()+"</trade_type>");
+        sb.append("<openid>"+payInfo.getOpenId()+"</openid>");
+        sb.append("</xml>");
 
-        return document;
+        return sb.toString();
     }
 
     @Override
@@ -276,6 +283,8 @@ public class OrderServiceImpl implements OrderService{
 
                 //更新产品库存
                 updateProductSellNum(productVo);
+
+                //TODO 更新用户积分
             }
             return true;
         }

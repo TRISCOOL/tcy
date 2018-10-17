@@ -45,6 +45,16 @@ public class Product {
     private String colorValue;
     private String colorCode;
 
+    private Integer scoreValue;
+
+    public Integer getScoreValue() {
+        return scoreValue;
+    }
+
+    public void setScoreValue(Integer scoreValue) {
+        this.scoreValue = scoreValue;
+    }
+
     public String getSizeDescription() {
         return sizeDescription;
     }

@@ -164,4 +164,8 @@
   <select id="selectUserByOpenId" resultType="tcy.common.model.User">
     select *from user where open_id = #{openId};
   </select>
+
+  <select id="selectUserByIdForScore" resultType="tcy.common.model.User">
+    SELECT u.*,s.scoreValue,s.id AS scoreId FROM `user` u LEFT JOIN score s ON u.open_id = s.user_id WHERE u.id = #{userId}
+  </select>
 </mapper>

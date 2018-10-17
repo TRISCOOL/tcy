@@ -46,4 +46,6 @@ public interface ProductService {
     boolean updateStock(List<StockMangerDTO> stockMangerDTOList,Long productId);
 
     List<Product> listProductByOrderId(Long orderId);
+
+    Product onlyGetProductById(Long productId);
 }

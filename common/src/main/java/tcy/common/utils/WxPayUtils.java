@@ -7,17 +7,17 @@ import java.util.Date;
 
 public class WxPayUtils {
 
-    private static String PAYKEY = "";
+    private static String PAYKEY = "taoran123yueyuan456chengdong7890";
 
     public static String getPaySign(PayInfo payInfo){
 
-        String stringA = "appid="+payInfo.getAppId()+"&body="+payInfo.getBody()+"&mch_id="+payInfo.getMchId()+"&="
-                +"nonce_str="+payInfo.getNonceStr()+"&notify_url="+payInfo.getNotifyUrl()+"&out_trade_no="
-                +payInfo.getOutTradeNo()+"&spbill_create_ip=" +payInfo.getSpbillCreateIp()+"&total_fee="
+        String stringA = "appid="+payInfo.getAppId()+"&body="+payInfo.getBody()+"&mch_id="+payInfo.getMchId()+"&"
+                +"nonce_str="+payInfo.getNonceStr()+"&notify_url="+payInfo.getNotifyUrl()+"&openid="+payInfo.getOpenId()
+                +"&out_trade_no="+payInfo.getOutTradeNo()+"&spbill_create_ip=" +payInfo.getSpbillCreateIp()+"&total_fee="
                 +payInfo.getTotalFee()+"&trade_type="+payInfo.getTradeType();
 
         String stringSignTemp = stringA+"&key="+PAYKEY;
-        String sign = Utils.getMd5(stringSignTemp);
+        String sign = Utils.getMd5(stringSignTemp).toUpperCase();
         return sign;
     }
 

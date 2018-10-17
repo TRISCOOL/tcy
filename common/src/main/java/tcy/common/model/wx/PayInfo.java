@@ -10,10 +10,19 @@ public class PayInfo {
     private String sign; //签名;
     private String body; //商品描述
     private String outTradeNo; //商户订单;
-    private String totalFee; //订单总金额，单位为分
+    private Integer totalFee; //订单总金额，单位为分
     private String spbillCreateIp; //APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
     private String notifyUrl; //通知地址
     private String tradeType; //交易类型 -JSAPI
+    private String openId;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
 
     public String getAppId() {
         return appId;
@@ -63,11 +72,11 @@ public class PayInfo {
         this.outTradeNo = outTradeNo;
     }
 
-    public String getTotalFee() {
+    public Integer getTotalFee() {
         return totalFee;
     }
 
-    public void setTotalFee(String totalFee) {
+    public void setTotalFee(Integer totalFee) {
         this.totalFee = totalFee;
     }
 
@@ -95,15 +104,18 @@ public class PayInfo {
         this.tradeType = tradeType;
     }
 
-    public static PayInfo getPayInfo(Order order){
+    public static PayInfo getPayInfo(Order order,String customerIp){
         PayInfo payInfo = new PayInfo();
         payInfo.setAppId(Constant.WX_APP_ID);
         payInfo.setMchId(Constant.MCHID);
         payInfo.setBody("服装交易");
         payInfo.setNotifyUrl(Constant.NOTIFYURL);
-        payInfo.setTotalFee(order.getShouldPayAmount() != null?order.getShouldPayAmount().doubleValue()+"":0d+"");
+        payInfo.setTotalFee(order.getShouldPayAmount() != null?order.getShouldPayAmount().intValue()*100:0);
         payInfo.setTradeType(Constant.TRADETYPE);
         payInfo.setOutTradeNo(order.getOrderNumber());
+        payInfo.setOpenId(order.getOpenId());
+        payInfo.setSpbillCreateIp(customerIp);
+
         return payInfo;
     }
 }

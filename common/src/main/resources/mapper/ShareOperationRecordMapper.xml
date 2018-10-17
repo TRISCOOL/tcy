@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tcy.common.mapper.ShareOperationRecordMapper" >
+  <resultMap id="BaseResultMap" type="tcy.common.model.ShareOperationRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="share_id" property="shareId" jdbcType="BIGINT" />
+    <result column="operation_type" property="operationType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, share_id, operation_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from share_operation_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from share_operation_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="tcy.common.model.ShareOperationRecord" >
+    insert into share_operation_record (id, user_id, share_id, 
+      operation_type)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{shareId,jdbcType=BIGINT}, 
+      #{operationType,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="tcy.common.model.ShareOperationRecord" >
+    insert into share_operation_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="shareId != null" >
+        share_id,
+      </if>
+      <if test="operationType != null" >
+        operation_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="shareId != null" >
+        #{shareId,jdbcType=BIGINT},
+      </if>
+      <if test="operationType != null" >
+        #{operationType,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="tcy.common.model.ShareOperationRecord" >
+    update share_operation_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="shareId != null" >
+        share_id = #{shareId,jdbcType=BIGINT},
+      </if>
+      <if test="operationType != null" >
+        operation_type = #{operationType,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="tcy.common.model.ShareOperationRecord" >
+    update share_operation_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      share_id = #{shareId,jdbcType=BIGINT},
+      operation_type = #{operationType,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="listByShareId" resultType="tcy.common.model.ShareOperationRecord">
+    SELECT
+      sor.*, u.`name`, u.wx_name,u.logo
+    FROM
+      share_operation_record sor
+    LEFT JOIN
+      `user` u ON sor.user_id = u.id
+    WHERE
+      sor.share_id = #{shareId}
+  </select>
+
+  <select id="selectShareOperationRecordByProductIdAndUserId" resultType="tcy.common.model.ShareOperationRecord">
+    SELECT
+      sor.*
+    FROM
+      share_operation_record sor
+    LEFT JOIN
+      share_record sr ON sor.share_id = sr.id
+    LEFT JOIN
+      product p ON sr.product_id = p.id
+    WHERE
+      p.id = #{productId}
+    AND sor.user_id = #{userId}
+    <if test="operationType != null">
+      AND sor.operation_type = #{operationType}
+    </if>
+  </select>
+
+  <select id="selectByShareIdAndUserId" resultType="tcy.common.model.ShareOperationRecord">
+    SELECT
+      sor.*,sr.product_id
+    FROM
+      share_operation_record sor
+    LEFT JOIN share_record sr ON sor.share_id = sr.id
+    WHERE
+      sor.share_id = #{shareId} AND sor.user_id = #{userId}
+  </select>
+</mapper>

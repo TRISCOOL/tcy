@@ -46,4 +46,6 @@ public interface ProductMapper {
     int shelfProductById(@Param("isShelf")Integer isShelf,@Param("productId")Long productId);
 
     List<Product> listProductByOrderId(@Param("orderId")Long orderId);
+
+    Product onlyGetProductById(@Param("productId")Long productId);
 }

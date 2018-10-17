@@ -25,6 +25,26 @@ public class User {
 
     private String token;
 
+    private Integer scoreValue;
+
+    private Long scoreId;
+
+    public Integer getScoreValue() {
+        return scoreValue;
+    }
+
+    public void setScoreValue(Integer scoreValue) {
+        this.scoreValue = scoreValue;
+    }
+
+    public Long getScoreId() {
+        return scoreId;
+    }
+
+    public void setScoreId(Long scoreId) {
+        this.scoreId = scoreId;
+    }
+
     public Long getId() {
         return id;
     }

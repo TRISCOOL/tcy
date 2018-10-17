@@ -176,7 +176,7 @@
 FROM
     shopping_cart sc
         LEFT JOIN
-    clothing_config cc ON sc.product_id = cc.product_id
+    clothing_config cc ON sc.product_id = cc.id
         LEFT JOIN
     clothing_size cs ON cc.size_id = cs.id
         LEFT JOIN
@@ -186,6 +186,6 @@ FROM
         LEFT JOIN
     product_img pi ON pi.product_id = p.id
 WHERE
-    sc.order_id = #{orderId}
+    sc.order_id = #{orderId} AND pi.type = 1
   </select>
 </mapper>

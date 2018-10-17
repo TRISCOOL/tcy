@@ -31,10 +31,10 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 public class UserController extends BaseController{
 
     @Value("#{environment.wxspappid}")
-    private String WxSPAppid = "wx13315d43739eab72";
+    private String WxSPAppid = "wx8b2b0165d2e6c115";
 
     @Value("#{environment.wxspsecret}")
-    private String WxSPSecret = "4b19a558d1a249077cfcdaf9b65a64cd";
+    private String WxSPSecret = "60a1a9b31cb786b0ba180aead94313f3";
 
     @Value("#{environment.wxspsecret}")
     private String WxSPurl = "https://api.weixin.qq.com/sns/jscode2session";

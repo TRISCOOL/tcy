@@ -40,6 +40,9 @@ public class ShoppingCartController extends BaseController{
             return ResponseVo.error(ResponseCode.AUTH_FAILED);
         }
 
+        if (user.getId() == null)
+            return ResponseVo.error(ResponseCode.AUTH_FAILED);
+
         if (shoppingCart.getProductId() == null){
             return ResponseVo.error(ResponseCode.PARAM_ILLEGAL);
         }

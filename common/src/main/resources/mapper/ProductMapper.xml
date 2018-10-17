@@ -337,4 +337,8 @@ WHERE
     WHERE
       sc.order_id = #{orderId} AND pi.type = 1
   </select>
+
+  <select id="onlyGetProductById" resultType="tcy.common.model.Product">
+    SELECT p.*,ic.value AS scoreValue FROM product p LEFT JOIN integral_config ic ON p.integral_config_id = ic.id WHERE p.id = #{productId}
+  </select>
 </mapper>

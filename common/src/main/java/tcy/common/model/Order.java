@@ -44,6 +44,16 @@ public class Order {
     private String contactPhone;
     private Long courierCompanyId;
 
+    private String openId;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
     public Long getCourierCompanyId() {
         return courierCompanyId;
     }
