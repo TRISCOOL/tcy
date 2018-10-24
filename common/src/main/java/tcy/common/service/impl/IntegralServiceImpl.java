@@ -83,6 +83,11 @@ public class IntegralServiceImpl implements IntegralService{
         updateIntegral(score);
     }
 
+    @Override
+    public IntegralConfig findIntegralByProductId(Long productId) {
+        return integralConfigMapper.selectIntegralByProductId(productId);
+    }
+
     /**
      *
      * @param oldIntegral

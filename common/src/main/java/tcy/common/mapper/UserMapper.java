@@ -19,4 +19,6 @@ public interface UserMapper {
     User selectUserByOpenId(@Param("openId")String openId);
 
     User selectUserByIdForScore(@Param("userId")Long userId);
+
+    User selectUserByShareId(@Param("shareId")Long shareId);
 }

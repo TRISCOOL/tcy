@@ -38,6 +38,8 @@ public interface ShareService {
 
     List<ShareOperationRecord> selectOperations(Long product,Long userId,Integer operationStatus);
 
+    boolean updateShareOperationRecord(ShareOperationRecord shareOperationRecord);
+
 
 
 }

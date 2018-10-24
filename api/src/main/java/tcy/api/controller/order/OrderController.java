@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import tcy.api.controller.BaseController;
 import tcy.api.vo.ResponseVo;
 import tcy.common.exception.ResponseCode;
+import tcy.common.mapper.IntegralConfigMapper;
 import tcy.common.mapper.ShareOperationRecordMapper;
 import tcy.common.mapper.ShoppingCartMapper;
 import tcy.common.model.*;
 import tcy.common.model.wx.PayResponseInfo;
 import tcy.common.model.wx.WxNotify;
+import tcy.common.service.IntegralService;
 import tcy.common.service.OrderService;
 import tcy.common.service.RedisService;
 import tcy.common.service.ShareService;
@@ -47,7 +49,7 @@ public class OrderController extends BaseController{
     private ShareService shareService;
 
     @Autowired
-    private ShareOperationRecordMapper shareOperationRecordMapper;
+    private IntegralService integralService;
 
     private static final String CALL_BACK_KEY = "callback";
 
@@ -140,9 +142,6 @@ public class OrderController extends BaseController{
                     if (order1.getStatus().equals(0)){
                         boolean result = updateOrder(order1,notify);
                         if (result){
-                            //处理分享与积分
-                            updateShareOperation(order);
-
                             return wxPayResponseSuccess();
                         }
                     }
@@ -154,23 +153,6 @@ public class OrderController extends BaseController{
         }
 
         return "";
-    }
-
-    private void updateShareOperation(Order order){
-        List<ProductVo> productVos = shoppingCartMapper.selectProductDetailsWithOrder(order.getId());
-        if (productVos != null && productVos.size() > 0){
-            for (ProductVo p : productVos){
-                List<ShareOperationRecord> shareOperationRecords =
-                        shareService.selectOperations(p.getProductId(),order.getUserId(),1);
-                if (shareOperationRecords.size() > 0){
-                    for (ShareOperationRecord operationRecord : shareOperationRecords){
-                        operationRecord.setOperationType(2);
-                        shareOperationRecordMapper.updateByPrimaryKeySelective(operationRecord);
-                        //TODO 对分享人和购买的积分进行修改
-                    }
-                }
-            }
-        }
     }
 
     public boolean isContinue(String orderNo){

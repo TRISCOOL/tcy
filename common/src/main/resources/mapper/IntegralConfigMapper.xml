@@ -79,4 +79,15 @@
       score = #{score,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectIntegralByProductId" resultType="tcy.common.model.IntegralConfig">
+    SELECT
+      ic.*
+    FROM
+      product p
+    LEFT JOIN
+      integral_config ic ON p.integral_config_id = ic.id
+    WHERE
+      p.id = #{productId}
+  </select>
 </mapper>

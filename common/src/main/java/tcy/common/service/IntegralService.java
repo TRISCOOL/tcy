@@ -1,5 +1,6 @@
 package tcy.common.service;
 
+import tcy.common.model.IntegralConfig;
 import tcy.common.model.IntegralRecord;
 import tcy.common.model.Order;
 import tcy.common.model.ShareOperationRecord;
@@ -22,4 +23,6 @@ public interface IntegralService {
      * @param shareOperationRecord
      */
     void updateIntegralForUserByShare(ShareOperationRecord shareOperationRecord);
+
+    IntegralConfig findIntegralByProductId(Long productId);
 }

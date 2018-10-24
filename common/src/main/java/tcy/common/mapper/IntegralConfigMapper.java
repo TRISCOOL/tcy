@@ -1,5 +1,6 @@
 package tcy.common.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import tcy.common.model.IntegralConfig;
 
 public interface IntegralConfigMapper {
@@ -14,4 +15,6 @@ public interface IntegralConfigMapper {
     int updateByPrimaryKeySelective(IntegralConfig record);
 
     int updateByPrimaryKey(IntegralConfig record);
+
+    IntegralConfig selectIntegralByProductId(@Param("productId")Long productId);
 }

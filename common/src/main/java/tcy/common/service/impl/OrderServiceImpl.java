@@ -26,7 +26,9 @@ import tcy.common.mapper.*;
 import tcy.common.model.*;
 import tcy.common.model.wx.PayInfo;
 import tcy.common.model.wx.PayResponseInfo;
+import tcy.common.service.IntegralService;
 import tcy.common.service.OrderService;
+import tcy.common.service.ShareService;
 import tcy.common.utils.DateTimeUtil;
 import tcy.common.utils.Utils;
 import tcy.common.utils.WxPayUtils;
@@ -57,6 +59,12 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private ClothingConfigMapper clothingConfigMapper;
+
+    @Autowired
+    private ShareService shareService;
+
+    @Autowired
+    private IntegralService integralService;
 
     @Autowired
     private UserMapper userMapper;
@@ -285,11 +293,34 @@ public class OrderServiceImpl implements OrderService{
                 updateProductSellNum(productVo);
 
                 //TODO 更新用户积分
+                integralService.updateIntegralForUserByOrder(order);
             }
+
+            //处理分享与积分
+            updateShareOperation(order);
             return true;
         }
 
         return false;
+    }
+
+    private void updateShareOperation(Order order){
+        List<ProductVo> productVos = shoppingCartMapper.selectProductDetailsWithOrder(order.getId());
+        if (productVos != null && productVos.size() > 0){
+            for (ProductVo p : productVos){
+                List<ShareOperationRecord> shareOperationRecords =
+                        shareService.selectOperations(p.getProductId(),order.getUserId(),1);
+                if (shareOperationRecords.size() > 0){
+                    for (ShareOperationRecord operationRecord : shareOperationRecords){
+                        operationRecord.setOperationType(2);
+                        shareService.updateShareOperationRecord(operationRecord);
+                        //TODO 对分享人的积分进行修改
+                        integralService.updateIntegralForUserByShare(operationRecord);
+
+                    }
+                }
+            }
+        }
     }
 
     @Override

@@ -95,4 +95,13 @@ public class ShareServiceImpl implements ShareService{
     public List<ShareOperationRecord> selectOperations(Long product, Long userId, Integer operationStatus) {
         return shareOperationRecordMapper.selectShareOperationRecordByProductIdAndUserId(product,userId,operationStatus);
     }
+
+    @Override
+    public boolean updateShareOperationRecord(ShareOperationRecord shareOperationRecord) {
+        Integer result = shareOperationRecordMapper.updateByPrimaryKeySelective(shareOperationRecord);
+        if (result != 0)
+            return true;
+
+        return false;
+    }
 }
